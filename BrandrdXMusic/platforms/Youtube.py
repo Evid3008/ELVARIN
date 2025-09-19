@@ -179,7 +179,7 @@ class YouTubeAPI:
             "--cookies",cookie_txt_file(),
             "-g",
             "-f",
-            "bv*[height<=?720][ext=mp4]+ba[ext=m4a]/bv*[height<=?720]+ba/best[height<=?720][ext=mp4]/best",
+            "bv*[height<=?720]+ba/best[height<=?720]/best",
             f"{link}",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
@@ -298,7 +298,7 @@ class YouTubeAPI:
         loop = asyncio.get_running_loop()
         def audio_dl():
             ydl_optssx = {
-                "format": "bestaudio[ext=m4a]/bestaudio/best",
+                "format": "bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
@@ -321,7 +321,7 @@ class YouTubeAPI:
 
         def video_dl():
             ydl_optssx = {
-                "format": "bv*[height<=?720][ext=mp4]+ba[ext=m4a]/bv*[height<=?720]+ba/best[height<=?720][ext=mp4]/best",
+                "format": "bv*[height<=?720]+ba/best[height<=?720]/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
@@ -399,7 +399,7 @@ class YouTubeAPI:
                     "--cookies",cookie_txt_file(),
                     "-g",
                     "-f",
-                    "bv*[height<=?720][ext=mp4]+ba[ext=m4a]/bv*[height<=?720]+ba/best[height<=?720][ext=mp4]/best",
+                    "bv*[height<=?720]+ba/best[height<=?720]/best",
                     f"{link}",
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
