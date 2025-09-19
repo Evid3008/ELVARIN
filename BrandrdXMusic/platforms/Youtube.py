@@ -177,11 +177,6 @@ class YouTubeAPI:
         proc = await asyncio.create_subprocess_exec(
             "yt-dlp",
             "--cookies",cookie_txt_file(),
-            "--concurrent-fragments","10",
-            "--retries","1",
-            "--fragment-retries","1",
-            "--extractor-args","youtube:player_client=android",
-            "--http-chunk-size","1M",
             "-g",
             "-f",
             "best[height<=?720][width<=?1280]",
@@ -310,12 +305,6 @@ class YouTubeAPI:
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "noplaylist": True,
-                "retries": 1,
-                "fragment_retries": 1,
-                "concurrent_fragment_downloads": 10,
-                "http_chunk_size": 1048576,
-                "extractor_args": {"youtube": {"player_client": ["android"]}},
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -334,12 +323,6 @@ class YouTubeAPI:
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "noplaylist": True,
-                "retries": 1,
-                "fragment_retries": 1,
-                "concurrent_fragment_downloads": 10,
-                "http_chunk_size": 1048576,
-                "extractor_args": {"youtube": {"player_client": ["android"]}},
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -404,11 +387,6 @@ class YouTubeAPI:
                 proc = await asyncio.create_subprocess_exec(
                     "yt-dlp",
                     "--cookies",cookie_txt_file(),
-                    "--concurrent-fragments","10",
-                    "--retries","1",
-                    "--fragment-retries","1",
-                    "--extractor-args","youtube:player_client=android",
-                    "--http-chunk-size","1M",
                     "-g",
                     "-f",
                     "best[height<=?720][width<=?1280]",
