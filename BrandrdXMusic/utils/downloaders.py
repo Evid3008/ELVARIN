@@ -2,18 +2,13 @@ import os
 from yt_dlp import YoutubeDL
 
 ydl_opts = {
-    "format": "bestaudio[ext=m4a]/bestaudio/best",
+    "format": "bestaudio/best",
     "outtmpl": "downloads/%(id)s.%(ext)s",
     "geo_bypass": True,
     "nocheckcertificate": True,
     "quiet": True,
     "no_warnings": True,
     "prefer_ffmpeg": True,
-    "noplaylist": True,
-    "retries": 2,
-    "fragment_retries": 2,
-    "concurrent_fragment_downloads": 5,
-    "extractor_args": {"youtube": {"player_client": ["android"]}},
     "postprocessors": [
         {
             "key": "FFmpegExtractAudio",

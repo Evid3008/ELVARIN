@@ -179,7 +179,7 @@ class YouTubeAPI:
             "--cookies",cookie_txt_file(),
             "-g",
             "-f",
-            "bv*[height<=?720]+ba/best[height<=?720]/best",
+            "best[height<=?720][width<=?1280]",
             f"{link}",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
@@ -305,11 +305,6 @@ class YouTubeAPI:
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "noplaylist": True,
-                "retries": 2,
-                "fragment_retries": 2,
-                "concurrent_fragment_downloads": 5,
-                "extractor_args": {"youtube": {"player_client": ["android"]}},
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -321,18 +316,13 @@ class YouTubeAPI:
 
         def video_dl():
             ydl_optssx = {
-                "format": "bv*[height<=?720]+ba/best[height<=?720]/best",
+                "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "noplaylist": True,
-                "retries": 2,
-                "fragment_retries": 2,
-                "concurrent_fragment_downloads": 5,
-                "extractor_args": {"youtube": {"player_client": ["android"]}},
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -399,7 +389,7 @@ class YouTubeAPI:
                     "--cookies",cookie_txt_file(),
                     "-g",
                     "-f",
-                    "bv*[height<=?720]+ba/best[height<=?720]/best",
+                    "best[height<=?720][width<=?1280]",
                     f"{link}",
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
