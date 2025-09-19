@@ -8,6 +8,12 @@ ytdl = yt_dlp.YoutubeDL(
         "format": "bestaudio[ext=m4a]",
         "geo_bypass": True,
         "nocheckcertificate": True,
+        "noplaylist": True,
+        "retries": 1,
+        "fragment_retries": 1,
+        "concurrent_fragment_downloads": 10,
+        "http_chunk_size": 1048576,
+        "extractor_args": {"youtube": {"player_client": ["android"]}},
     }
 )
 
@@ -20,6 +26,12 @@ def download(url: str, my_hook) -> str:
         "nocheckcertificate": True,
         "quiet": True,
         "no_warnings": True,
+        "noplaylist": True,
+        "retries": 1,
+        "fragment_retries": 1,
+        "concurrent_fragment_downloads": 10,
+        "http_chunk_size": 1048576,
+        "extractor_args": {"youtube": {"player_client": ["android"]}},
     }
     info = ytdl.extract_info(url, False)
     try:

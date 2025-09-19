@@ -9,6 +9,12 @@ ydl_opts = {
     "quiet": True,
     "no_warnings": True,
     "prefer_ffmpeg": True,
+    "noplaylist": True,
+    "retries": 1,
+    "fragment_retries": 1,
+    "concurrent_fragment_downloads": 10,
+    "http_chunk_size": 1048576,
+    "extractor_args": {"youtube": {"player_client": ["android"]}},
     "postprocessors": [
         {
             "key": "FFmpegExtractAudio",
