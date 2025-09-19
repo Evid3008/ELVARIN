@@ -2,7 +2,7 @@ import os
 from yt_dlp import YoutubeDL
 
 ydl_opts = {
-    "format": "bestaudio/best",
+    "format": "bestaudio[ext=m4a]/bestaudio/best",
     "outtmpl": "downloads/%(id)s.%(ext)s",
     "geo_bypass": True,
     "nocheckcertificate": True,
