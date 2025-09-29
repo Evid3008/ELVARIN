@@ -2,7 +2,7 @@ import os
 from yt_dlp import YoutubeDL
 
 ydl_opts = {
-    "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
+    "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio[ext=opus]/bestaudio/best",
     "outtmpl": "downloads/%(id)s.%(ext)s",
     "geo_bypass": True,
     "nocheckcertificate": True,
@@ -16,12 +16,12 @@ ydl_opts = {
         {
             "key": "FFmpegExtractAudio",
             "preferredcodec": "mp3",
-            "preferredquality": "256",
+            "preferredquality": "320",
         },
         {
             "key": "FFmpegAudioFilters",
             "preprocessor_args": [
-                "-af", "bass=g=8:f=100,treble=g=4:f=10000,volume=1.15,highpass=f=20,lowpass=f=18000"
+                "-af", "bass=g=12:f=120,treble=g=6:f=12000,volume=1.2,highpass=f=15,lowpass=f=20000,acompressor=threshold=0.3:ratio=3:attack=5:release=50"
             ]
         }
     ],
