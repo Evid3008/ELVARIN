@@ -360,7 +360,7 @@ class YouTubeAPI:
         def song_audio_dl():
             fpath = f"downloads/{title}.%(ext)s"
             ydl_optssx = {
-                "format": format_id,
+                "format": "bestaudio[ext=m4a]/bestaudio/best",
                 "outtmpl": fpath,
                 "geo_bypass": True,
                 "nocheckcertificate": True,
@@ -372,7 +372,13 @@ class YouTubeAPI:
                     {
                         "key": "FFmpegExtractAudio",
                         "preferredcodec": "mp3",
-                        "preferredquality": "192",
+                        "preferredquality": "320",
+                    },
+                    {
+                        "key": "FFmpegAudioFilters",
+                        "preprocessor_args": [
+                            "-af", "bass=g=10:f=100,treble=g=5:f=10000,volume=1.2"
+                        ]
                     }
                 ],
             }
