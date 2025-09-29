@@ -69,18 +69,12 @@ class Userbot(Client):
         LOGGER(__name__).info(f"Starting Assistants...")
 
         if config.STRING1:
+            await self.one.start()
             try:
-                await self.one.start()
-            except Exception as e:
-                LOGGER(__name__).error(f"Assistant 1 failed to start: {e}")
-                LOGGER(__name__).error("Please check your STRING1 session - it may be invalid or expired")
-                config.STRING1 = None
-                return
-            try:
-                await self.one.join_chat("TEAM_FERA")
-                await self.one.join_chat("evidclue")
-                await self.one.join_chat("evidzone")
-                await self.one.join_chat("iq4us")
+                await self.one.join_chat("BRANDED_WORLD")
+                await self.one.join_chat("BRANDED_PAID_CC")
+                await self.one.join_chat("BRANDRD_BOT")
+                await self.one.join_chat("ABOUT_BRANDEDKING")
 
             except:
                 pass
@@ -105,113 +99,97 @@ class Userbot(Client):
             LOGGER(__name__).info(f"Assistant Started as {self.one.name}")
 
         if config.STRING2:
+            await self.two.start()
             try:
-                await self.two.start()
-                try:
-                    await self.two.join_chat("TEAM_FERA")
-                    await self.two.join_chat("evidclue")
-                    await self.two.join_chat("evidzone")
-                    await self.two.join_chat("iq4us")
-                except:
-                    pass
-                assistants.append(2)
-                try:
-                    await self.two.send_message(config.LOGGER_ID, "Assistant Started")
+                await self.two.join_chat("BRANDED_WORLD")
+                await self.two.join_chat("BRANDED_PAID_CC")
+                await self.two.join_chat("BRANDRD_BOT")
+                await self.two.join_chat("ABOUT_BRANDEDKING")
+            except:
+                pass
+            assistants.append(2)
+            try:
+                await self.two.send_message(config.LOGGER_ID, "Assistant Started")
 
-                except:
-                    LOGGER(__name__).error(
-                        "Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                    )
+            except:
+                LOGGER(__name__).error(
+                    "Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
+                )
 
-                self.two.id = self.two.me.id
-                self.two.name = self.two.me.mention
-                self.two.username = self.two.me.username
-                assistantids.append(self.two.id)
-                LOGGER(__name__).info(f"Assistant Two Started as {self.two.name}")
-            except Exception as e:
-                LOGGER(__name__).error(f"Assistant 2 failed to start: {e}")
-                LOGGER(__name__).warning("Skipping STRING2 - session may be invalid")
+            self.two.id = self.two.me.id
+            self.two.name = self.two.me.mention
+            self.two.username = self.two.me.username
+            assistantids.append(self.two.id)
+            LOGGER(__name__).info(f"Assistant Two Started as {self.two.name}")
 
         if config.STRING3:
+            await self.three.start()
             try:
-                await self.three.start()
-                try:
-                    await self.three.join_chat("TEAM_FERA")
-                    await self.three.join_chat("evidclue")
-                    await self.three.join_chat("evidzone")
-                    await self.three.join_chat("iq4us")
-                except:
-                    pass
-                assistants.append(3)
-                try:
-                    await self.three.send_message(config.LOGGER_ID, "Assistant Started")
-                except:
-                    LOGGER(__name__).error(
-                        "Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
-                    )
+                await self.three.join_chat("BRANDED_WORLD")
+                await self.three.join_chat("BRANDED_PAID_CC")
+                await self.three.join_chat("BRANDRD_BOT")
+                await self.three.join_chat("ABOUT_BRANDEDKING")
+            except:
+                pass
+            assistants.append(3)
+            try:
+                await self.three.send_message(config.LOGGER_ID, "Assistant Started")
+            except:
+                LOGGER(__name__).error(
+                    "Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                )
 
-                self.three.id = self.three.me.id
-                self.three.name = self.three.me.mention
-                self.three.username = self.three.me.username
-                assistantids.append(self.three.id)
-                LOGGER(__name__).info(f"Assistant Three Started as {self.three.name}")
-            except Exception as e:
-                LOGGER(__name__).error(f"Assistant 3 failed to start: {e}")
-                LOGGER(__name__).warning("Skipping STRING3 - session may be invalid")
+            self.three.id = self.three.me.id
+            self.three.name = self.three.me.mention
+            self.three.username = self.three.me.username
+            assistantids.append(self.three.id)
+            LOGGER(__name__).info(f"Assistant Three Started as {self.three.name}")
 
         if config.STRING4:
+            await self.four.start()
             try:
-                await self.four.start()
-                try:
-                    await self.four.join_chat("TEAM_FERA")
-                    await self.four.join_chat("evidclue")
-                    await self.four.join_chat("evidzone")
-                    await self.four.join_chat("iq4us")
-                except:
-                    pass
-                assistants.append(4)
-                try:
-                    await self.four.send_message(config.LOGGER_ID, "Assistant Started")
-                except:
-                    LOGGER(__name__).error(
-                        "Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
-                    )
+                await self.four.join_chat("BRANDED_WORLD")
+                await self.four.join_chat("BRANDED_PAID_CC")
+                await self.four.join_chat("BRANDRD_BOT")
+                await self.four.join_chat("ABOUT_BRANDEDKING")
+            except:
+                pass
+            assistants.append(4)
+            try:
+                await self.four.send_message(config.LOGGER_ID, "Assistant Started")
+            except:
+                LOGGER(__name__).error(
+                    "Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                )
 
-                self.four.id = self.four.me.id
-                self.four.name = self.four.me.mention
-                self.four.username = self.four.me.username
-                assistantids.append(self.four.id)
-                LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
-            except Exception as e:
-                LOGGER(__name__).error(f"Assistant 4 failed to start: {e}")
-                LOGGER(__name__).warning("Skipping STRING4 - session may be invalid")
+            self.four.id = self.four.me.id
+            self.four.name = self.four.me.mention
+            self.four.username = self.four.me.username
+            assistantids.append(self.four.id)
+            LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
 
         if config.STRING5:
+            await self.five.start()
             try:
-                await self.five.start()
-                try:
-                    await self.five.join_chat("TEAM_FERA")
-                    await self.five.join_chat("evidclue")
-                    await self.five.join_chat("evidzone")
-                    await self.five.join_chat("iq4us")
-                except:
-                    pass
-                assistants.append(5)
-                try:
-                    await self.five.send_message(config.LOGGER_ID, "Assistant 5 started !")
-                except:
-                    LOGGER(__name__).error(
-                        "Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
-                    )
+                await self.five.join_chat("BRANDED_WORLD")
+                await self.five.join_chat("BRANDED_PAID_CC")
+                await self.five.join_chat("BRANDRD_BOT")
+                await self.five.join_chat("ABOUT_BRANDEDKING")
+            except:
+                pass
+            assistants.append(5)
+            try:
+                await self.five.send_message(config.LOGGER_ID, "Assistant 5 started !")
+            except:
+                LOGGER(__name__).error(
+                    "Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                )
 
-                self.five.id = self.five.me.id
-                self.five.name = self.five.me.mention
-                self.five.username = self.five.me.username
-                assistantids.append(self.five.id)
-                LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")
-            except Exception as e:
-                LOGGER(__name__).error(f"Assistant 5 failed to start: {e}")
-                LOGGER(__name__).warning("Skipping STRING5 - session may be invalid")
+            self.five.id = self.five.me.id
+            self.five.name = self.five.me.mention
+            self.five.username = self.five.me.username
+            assistantids.append(self.five.id)
+            LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")
 
     async def stop(self):
         LOGGER(__name__).info(f"Stopping Assistants...")

@@ -47,12 +47,9 @@ loop = asyncio.get_event_loop_policy().get_event_loop()
 
 
 async def _clear_(chat_id):
-    try:
-        db[chat_id] = []
-        await remove_active_video_chat(chat_id)
-        await remove_active_chat(chat_id)
-    except Exception as e:
-        LOGGER(f"Error clearing chat {chat_id}: {e}")
+    db[chat_id] = []
+    await remove_active_video_chat(chat_id)
+    await remove_active_chat(chat_id)
 
 
 class Call(PyTgCalls):
@@ -66,7 +63,6 @@ class Call(PyTgCalls):
         self.one = PyTgCalls(
             self.userbot1,
             cache_duration=100,
-
         )
         self.userbot2 = Client(
             name="ElvarinXMusic2",
@@ -77,7 +73,6 @@ class Call(PyTgCalls):
         self.two = PyTgCalls(
             self.userbot2,
             cache_duration=100,
-
         )
         self.userbot3 = Client(
             name="ElvarinXMusic3",
@@ -88,7 +83,6 @@ class Call(PyTgCalls):
         self.three = PyTgCalls(
             self.userbot3,
             cache_duration=100,
-
         )
         self.userbot4 = Client(
             name="ElvarinXMusic4",
@@ -99,7 +93,6 @@ class Call(PyTgCalls):
         self.four = PyTgCalls(
             self.userbot4,
             cache_duration=100,
-
         )
         self.userbot5 = Client(
             name="ElvarinXMusic5",
@@ -110,7 +103,6 @@ class Call(PyTgCalls):
         self.five = PyTgCalls(
             self.userbot5,
             cache_duration=100,
-
         )
 
     async def pause_stream(self, chat_id: int):
@@ -214,14 +206,14 @@ class Call(PyTgCalls):
         stream = (
             MediaStream(
                 out,
-                audio_parameters=AudioQuality.ULTRA_HIGH,
+                audio_parameters=AudioQuality.HIGH,
                 video_parameters=VideoQuality.SD_480p,
                 ffmpeg_parameters=f"-ss {played} -to {duration}",
             )
             if playing[0]["streamtype"] == "video"
             else MediaStream(
                 out,
-                audio_parameters=AudioQuality.ULTRA_HIGH,
+                audio_parameters=AudioQuality.HIGH,
                 ffmpeg_parameters=f"-ss {played} -to {duration}",
                 video_flags=MediaStream.IGNORE,
             )
@@ -242,74 +234,62 @@ class Call(PyTgCalls):
             db[chat_id][0]["speed"] = speed
 
     async def force_stop_stream(self, chat_id: int):
-         try:
-             assistant = await group_assistant(self, chat_id)
-             try:
-                 check = db.get(chat_id)
-                 if check:
-                     check.pop(0)
-             except Exception as e:
-                 LOGGER(f"Error clearing queue: {e}")
-             await remove_active_video_chat(chat_id)
-             await remove_active_chat(chat_id)
-         except Exception as e:
-             LOGGER(f"Error in force_stop_stream: {e}")
-         try:
-             await assistant.leave_group_call(chat_id)
-         except:
-             pass
+        assistant = await group_assistant(self, chat_id)
+        try:
+            check = db.get(chat_id)
+            check.pop(0)
+        except:
+            pass
+        await remove_active_video_chat(chat_id)
+        await remove_active_chat(chat_id)
+        try:
+            await assistant.leave_group_call(chat_id)
+        except:
+            pass
 
     async def skip_stream(
-         self,
-         chat_id: int,
-         link: str,
-         video: Union[bool, str] = None,
-         image: Union[bool, str] = None,
-     ):
-         try:
-             assistant = await group_assistant(self, chat_id)
-             if video:
-                 stream = MediaStream(
-                     link,
-                     audio_parameters=AudioQuality.ULTRA_HIGH,
-                     video_parameters=VideoQuality.SD_480p,
-                 )
-             else:
-                 stream = MediaStream(
-                     link,
-                     audio_parameters=AudioQuality.ULTRA_HIGH,
-                     video_flags=MediaStream.IGNORE,
-                 )
-             await assistant.change_stream(
-                 chat_id,
-                 stream,
-             )
-         except Exception as e:
-             LOGGER(f"Error in skip_stream: {e}")
-             raise AssistantErr("Failed to skip stream")
+        self,
+        chat_id: int,
+        link: str,
+        video: Union[bool, str] = None,
+        image: Union[bool, str] = None,
+    ):
+        assistant = await group_assistant(self, chat_id)
+        if video:
+            stream = MediaStream(
+                link,
+                audio_parameters=AudioQuality.HIGH,
+                video_parameters=VideoQuality.SD_480p,
+            )
+        else:
+            stream = MediaStream(
+                link,
+                audio_parameters=AudioQuality.HIGH,
+                video_flags=MediaStream.IGNORE,
+            )
+        await assistant.change_stream(
+            chat_id,
+            stream,
+        )
 
     async def seek_stream(self, chat_id, file_path, to_seek, duration, mode):
-         try:
-             assistant = await group_assistant(self, chat_id)
-             stream = (
-                 MediaStream(
-                     file_path,
-                     audio_parameters=AudioQuality.ULTRA_HIGH,
-                     video_parameters=VideoQuality.SD_480p,
-                     ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
-                 )
-                 if mode == "video"
-                 else MediaStream(
-                     file_path,
-                     audio_parameters=AudioQuality.ULTRA_HIGH,
-                     ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
-                     video_flags=MediaStream.IGNORE,
-                 )
-             )
-             await assistant.change_stream(chat_id, stream)
-         except Exception as e:
-             LOGGER(f"Error in seek_stream: {e}")
-             raise AssistantErr("Failed to seek stream")
+        assistant = await group_assistant(self, chat_id)
+        stream = (
+            MediaStream(
+                file_path,
+                audio_parameters=AudioQuality.HIGH,
+                video_parameters=VideoQuality.SD_480p,
+                ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
+            )
+            if mode == "video"
+            else MediaStream(
+                file_path,
+                audio_parameters=AudioQuality.HIGH,
+                ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
+                video_flags=MediaStream.IGNORE,
+            )
+        )
+        await assistant.change_stream(chat_id, stream)
 
     async def stream_call(self, link):
         assistant = await group_assistant(self, config.LOGGER_ID)
@@ -334,20 +314,20 @@ class Call(PyTgCalls):
         if video:
             stream = MediaStream(
                 link,
-                audio_parameters=AudioQuality.ULTRA_HIGH,
+                audio_parameters=AudioQuality.HIGH,
                 video_parameters=VideoQuality.SD_480p,
             )
         else:
             stream = (
                 MediaStream(
                     link,
-                    audio_parameters=AudioQuality.ULTRA_HIGH,
+                    audio_parameters=AudioQuality.HIGH,
                     video_parameters=VideoQuality.SD_480p,
                 )
                 if video
                 else MediaStream(
                     link,
-                    audio_parameters=AudioQuality.ULTRA_HIGH,
+                    audio_parameters=AudioQuality.HIGH,
                     video_flags=MediaStream.IGNORE,
                 )
             )
@@ -363,10 +343,8 @@ class Call(PyTgCalls):
         except TelegramServerError:
             raise AssistantErr(_["call_10"])
         except Exception as e:
-            LOGGER(f"Error in join_call: {e}")
             if "phone.CreateGroupCall" in str(e):
                 raise AssistantErr(_["call_8"])
-            raise AssistantErr("Failed to join call")
         await add_active_chat(chat_id)
         await music_on(chat_id)
         if video:
@@ -423,13 +401,13 @@ class Call(PyTgCalls):
                 if video:
                     stream = MediaStream(
                         link,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_parameters=VideoQuality.SD_480p,
                     )
                 else:
                     stream = MediaStream(
                         link,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_flags=MediaStream.IGNORE,
                     )
                 try:
@@ -470,13 +448,13 @@ class Call(PyTgCalls):
                 if video:
                     stream = MediaStream(
                         file_path,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_parameters=VideoQuality.SD_480p,
                     )
                 else:
                     stream = MediaStream(
                         file_path,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_flags=MediaStream.IGNORE,
                     )
                 try:
@@ -506,13 +484,13 @@ class Call(PyTgCalls):
                 stream = (
                     MediaStream(
                         videoid,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_parameters=VideoQuality.SD_480p,
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
                         videoid,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_flags=MediaStream.IGNORE,
                     )
                 )
@@ -536,13 +514,13 @@ class Call(PyTgCalls):
                 if video:
                     stream = MediaStream(
                         queued,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_parameters=VideoQuality.SD_480p,
                     )
                 else:
                     stream = MediaStream(
                         queued,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
+                        audio_parameters=AudioQuality.HIGH,
                         video_flags=MediaStream.IGNORE,
                     )
                 try:
@@ -613,20 +591,16 @@ class Call(PyTgCalls):
 
     async def start(self):
         LOGGER(__name__).info("Starting PyTgCalls Client...\n")
-        try:
-            if config.STRING1:
-                await self.one.start()
-            if config.STRING2:
-                await self.two.start()
-            if config.STRING3:
-                await self.three.start()
-            if config.STRING4:
-                await self.four.start()
-            if config.STRING5:
-                await self.five.start()
-        except Exception as e:
-            LOGGER(f"Error starting PyTgCalls: {e}")
-            raise
+        if config.STRING1:
+            await self.one.start()
+        if config.STRING2:
+            await self.two.start()
+        if config.STRING3:
+            await self.three.start()
+        if config.STRING4:
+            await self.four.start()
+        if config.STRING5:
+            await self.five.start()
 
     async def decorators(self):
         @self.one.on_kicked()

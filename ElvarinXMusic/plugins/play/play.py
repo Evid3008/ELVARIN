@@ -1,13 +1,12 @@
 import random
 import string
-import traceback
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
-from ElvarinXMusic import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app, LOGGER
+from ElvarinXMusic import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from ElvarinXMusic.core.call import Hotty
 from ElvarinXMusic.utils import seconds_to_min, time_to_seconds
 from ElvarinXMusic.utils.channelplay import get_channeplayCB
@@ -54,13 +53,9 @@ async def play_commnd(
     url,
     fplay,
 ):
-    try:
-        mystic = await message.reply_text(
-            _["play_2"].format(channel) if channel else _["play_1"]
-        )
-    except Exception as e:
-        LOGGER(__name__).error(f"Error creating mystic message: {traceback.format_exc()}")
-        return await message.reply_text(f"Error: {type(e).__name__}")
+    mystic = await message.reply_text(
+        _["play_2"].format(channel) if channel else _["play_1"]
+    )
     plist_id = None
     slider = None
     plist_type = None
@@ -517,7 +512,7 @@ async def piyush_check(client, CallbackQuery):
         pass
 
 
-@app.on_callback_query(filters.regex("elvarinPlaylists") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("HottyPlaylists") & ~BANNED_USERS)
 @languageCB
 async def play_playlists_command(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
