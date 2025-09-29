@@ -29,6 +29,12 @@ AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")
 MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
 AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=12:f=120,treble=g=6:f=12000,volume=1.2,highpass=f=15,lowpass=f=20000")
 
+# Stability Settings
+MAX_RETRIES = int(getenv("MAX_RETRIES", "3"))
+RETRY_DELAY = int(getenv("RETRY_DELAY", "5"))
+CACHE_DURATION = int(getenv("CACHE_DURATION", "100"))
+OVERLOAD_QUIET_MODE = getenv("OVERLOAD_QUIET_MODE", "True")
+
 # Chat id of a group for logging bot's activities
 LOGGER_ID = int(getenv("LOGGER_ID", None))
 
