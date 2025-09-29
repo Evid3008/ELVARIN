@@ -54,7 +54,8 @@ def git():
     except AttributeError:
         origin = repo.create_remote("origin", UPSTREAM_REPO)
 
-    origin.fetch()
-    repo.git.reset("--hard", "origin/" + config.UPSTREAM_BRANCH)
-    install_req("pip3 install --no-cache-dir -r requirements.txt")
-    LOGGER(__name__).info(f"✅ Git repo synced with upstream.")
+    # Disabled auto-sync to prevent overwriting local changes
+    # origin.fetch()
+    # repo.git.reset("--hard", "origin/" + config.UPSTREAM_BRANCH)
+    # install_req("pip3 install --no-cache-dir -r requirements.txt")
+    LOGGER(__name__).info(f"✅ Git client initialized (auto-sync disabled).")
