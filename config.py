@@ -21,12 +21,13 @@ PRIVATE_BOT_MODE = getenv("PRIVATE_BOT_MODE", None)
 
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 900))
 
-# Audio Quality Settings (Safe for Telegram/Heroku)
-AUDIO_QUALITY = getenv("AUDIO_QUALITY", "192")
-AUDIO_BITRATE = getenv("AUDIO_BITRATE", "192k")
-AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "44100")
+# Audio Quality Settings (Optimized for Telegram/Heroku)
+AUDIO_QUALITY = getenv("AUDIO_QUALITY", "256")
+AUDIO_BITRATE = getenv("AUDIO_BITRATE", "256k")
+AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")
 AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")
 MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
+AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=8:f=100,treble=g=4:f=10000,volume=1.15")
 
 # Chat id of a group for logging bot's activities
 LOGGER_ID = int(getenv("LOGGER_ID", None))
