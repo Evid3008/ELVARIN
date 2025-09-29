@@ -16,12 +16,12 @@ ydl_opts = {
         {
             "key": "FFmpegExtractAudio",
             "preferredcodec": "mp3",
-            "preferredquality": "320",
+            "preferredquality": "192",
         },
         {
             "key": "FFmpegAudioFilters",
             "preprocessor_args": [
-                "-af", "bass=g=10:f=100,treble=g=5:f=10000,volume=1.2"
+                "-af", "bass=g=5:f=80,treble=g=3:f=8000,volume=1.1"
             ]
         }
     ],
