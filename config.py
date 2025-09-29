@@ -30,6 +30,13 @@ OWNER_ID = int(getenv("OWNER_ID", "5467532693"))
 # Sudo users list
 SUDO_USERS = list(map(int, getenv("SUDO_USERS", "5467532693").split()))
 
+# String Sessions
+STRING1 = getenv("STRING1", None)
+STRING2 = getenv("STRING2", None)
+STRING3 = getenv("STRING3", None)
+STRING4 = getenv("STRING4", None)
+STRING5 = getenv("STRING5", None)
+
 ## Fill these variables if you're deploying on heroku.
 # Your heroku app name
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
