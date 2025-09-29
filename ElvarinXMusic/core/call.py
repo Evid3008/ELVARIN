@@ -60,55 +60,55 @@ class Call(PyTgCalls):
             api_hash=config.API_HASH,
             session_string=str(config.STRING1),
         )
-        self.one = PyTgCalls(
-            self.userbot1,
-            cache_duration=100,
-            overload_quiet_mode=True,
-        )
+         self.one = PyTgCalls(
+             self.userbot1,
+             cache_duration=100,
+             overload_quiet_mode=True,
+         )
         self.userbot2 = Client(
             name="ElvarinXMusic2",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING2),
         )
-        self.two = PyTgCalls(
-            self.userbot2,
-            cache_duration=100,
-            overload_quiet_mode=True,
-        )
+         self.two = PyTgCalls(
+             self.userbot2,
+             cache_duration=100,
+             overload_quiet_mode=True,
+         )
         self.userbot3 = Client(
             name="ElvarinXMusic3",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING3),
         )
-        self.three = PyTgCalls(
-            self.userbot3,
-            cache_duration=100,
-            overload_quiet_mode=True,
-        )
+         self.three = PyTgCalls(
+             self.userbot3,
+             cache_duration=100,
+             overload_quiet_mode=True,
+         )
         self.userbot4 = Client(
             name="ElvarinXMusic4",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING4),
         )
-        self.four = PyTgCalls(
-            self.userbot4,
-            cache_duration=100,
-            overload_quiet_mode=True,
-        )
+         self.four = PyTgCalls(
+             self.userbot4,
+             cache_duration=100,
+             overload_quiet_mode=True,
+         )
         self.userbot5 = Client(
             name="ElvarinXMusic5",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING5),
         )
-        self.five = PyTgCalls(
-            self.userbot5,
-            cache_duration=100,
-            overload_quiet_mode=True,
-        )
+         self.five = PyTgCalls(
+             self.userbot5,
+             cache_duration=100,
+             overload_quiet_mode=True,
+         )
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -238,75 +238,75 @@ class Call(PyTgCalls):
             db[chat_id][0]["speed_path"] = out
             db[chat_id][0]["speed"] = speed
 
-    async def force_stop_stream(self, chat_id: int):
-        try:
-            assistant = await group_assistant(self, chat_id)
-            try:
-                check = db.get(chat_id)
-                if check:
-                    check.pop(0)
-            except Exception as e:
-                LOGGER(f"Error clearing queue: {e}")
-            await remove_active_video_chat(chat_id)
-            await remove_active_chat(chat_id)
-        except Exception as e:
-            LOGGER(f"Error in force_stop_stream: {e}")
-        try:
-            await assistant.leave_group_call(chat_id)
-        except:
-            pass
+     async def force_stop_stream(self, chat_id: int):
+         try:
+             assistant = await group_assistant(self, chat_id)
+             try:
+                 check = db.get(chat_id)
+                 if check:
+                     check.pop(0)
+             except Exception as e:
+                 LOGGER(f"Error clearing queue: {e}")
+             await remove_active_video_chat(chat_id)
+             await remove_active_chat(chat_id)
+         except Exception as e:
+             LOGGER(f"Error in force_stop_stream: {e}")
+         try:
+             await assistant.leave_group_call(chat_id)
+         except:
+             pass
 
-    async def skip_stream(
-        self,
-        chat_id: int,
-        link: str,
-        video: Union[bool, str] = None,
-        image: Union[bool, str] = None,
-    ):
-        try:
-            assistant = await group_assistant(self, chat_id)
-            if video:
-                stream = MediaStream(
-                    link,
-                    audio_parameters=AudioQuality.ULTRA_HIGH,
-                    video_parameters=VideoQuality.SD_480p,
-                )
-            else:
-                stream = MediaStream(
-                    link,
-                    audio_parameters=AudioQuality.ULTRA_HIGH,
-                    video_flags=MediaStream.IGNORE,
-                )
-            await assistant.change_stream(
-                chat_id,
-                stream,
-            )
-        except Exception as e:
-            LOGGER(f"Error in skip_stream: {e}")
-            raise AssistantErr("Failed to skip stream")
+     async def skip_stream(
+         self,
+         chat_id: int,
+         link: str,
+         video: Union[bool, str] = None,
+         image: Union[bool, str] = None,
+     ):
+         try:
+             assistant = await group_assistant(self, chat_id)
+             if video:
+                 stream = MediaStream(
+                     link,
+                     audio_parameters=AudioQuality.ULTRA_HIGH,
+                     video_parameters=VideoQuality.SD_480p,
+                 )
+             else:
+                 stream = MediaStream(
+                     link,
+                     audio_parameters=AudioQuality.ULTRA_HIGH,
+                     video_flags=MediaStream.IGNORE,
+                 )
+             await assistant.change_stream(
+                 chat_id,
+                 stream,
+             )
+         except Exception as e:
+             LOGGER(f"Error in skip_stream: {e}")
+             raise AssistantErr("Failed to skip stream")
 
-    async def seek_stream(self, chat_id, file_path, to_seek, duration, mode):
-        try:
-            assistant = await group_assistant(self, chat_id)
-            stream = (
-                MediaStream(
-                    file_path,
-                    audio_parameters=AudioQuality.ULTRA_HIGH,
-                    video_parameters=VideoQuality.SD_480p,
-                    ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
-                )
-                if mode == "video"
-                else MediaStream(
-                    file_path,
-                    audio_parameters=AudioQuality.ULTRA_HIGH,
-                    ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
-                    video_flags=MediaStream.IGNORE,
-                )
-            )
-            await assistant.change_stream(chat_id, stream)
-        except Exception as e:
-            LOGGER(f"Error in seek_stream: {e}")
-            raise AssistantErr("Failed to seek stream")
+     async def seek_stream(self, chat_id, file_path, to_seek, duration, mode):
+         try:
+             assistant = await group_assistant(self, chat_id)
+             stream = (
+                 MediaStream(
+                     file_path,
+                     audio_parameters=AudioQuality.ULTRA_HIGH,
+                     video_parameters=VideoQuality.SD_480p,
+                     ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
+                 )
+                 if mode == "video"
+                 else MediaStream(
+                     file_path,
+                     audio_parameters=AudioQuality.ULTRA_HIGH,
+                     ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
+                     video_flags=MediaStream.IGNORE,
+                 )
+             )
+             await assistant.change_stream(chat_id, stream)
+         except Exception as e:
+             LOGGER(f"Error in seek_stream: {e}")
+             raise AssistantErr("Failed to seek stream")
 
     async def stream_call(self, link):
         assistant = await group_assistant(self, config.LOGGER_ID)
@@ -325,47 +325,45 @@ class Call(PyTgCalls):
         video: Union[bool, str] = None,
         image: Union[bool, str] = None,
     ):
-        try:
-            assistant = await group_assistant(self, chat_id)
-            language = await get_lang(chat_id)
-            _ = get_string(language)
-            if video:
-                stream = MediaStream(
+        assistant = await group_assistant(self, chat_id)
+        language = await get_lang(chat_id)
+        _ = get_string(language)
+        if video:
+            stream = MediaStream(
+                link,
+                audio_parameters=AudioQuality.ULTRA_HIGH,
+                video_parameters=VideoQuality.SD_480p,
+            )
+        else:
+            stream = (
+                MediaStream(
                     link,
                     audio_parameters=AudioQuality.ULTRA_HIGH,
                     video_parameters=VideoQuality.SD_480p,
                 )
-            else:
-                stream = (
-                    MediaStream(
-                        link,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
-                        video_parameters=VideoQuality.SD_480p,
-                    )
-                    if video
-                    else MediaStream(
-                        link,
-                        audio_parameters=AudioQuality.ULTRA_HIGH,
-                        video_flags=MediaStream.IGNORE,
-                    )
+                if video
+                else MediaStream(
+                    link,
+                    audio_parameters=AudioQuality.ULTRA_HIGH,
+                    video_flags=MediaStream.IGNORE,
                 )
-            try:
-                await assistant.join_group_call(
-                    chat_id,
-                    stream,
-                )
-            except NoActiveGroupCall:
-                raise AssistantErr(_["call_8"])
-            except AlreadyJoinedError:
-                raise AssistantErr(_["call_9"])
-        except Exception as e:
-            LOGGER(f"Error in join_call: {e}")
-            raise AssistantErr("Failed to join call")
-        except TelegramServerError:
-            raise AssistantErr(_["call_10"])
-        except Exception as e:
-            if "phone.CreateGroupCall" in str(e):
-                raise AssistantErr(_["call_8"])
+            )
+         try:
+             await assistant.join_group_call(
+                 chat_id,
+                 stream,
+             )
+         except NoActiveGroupCall:
+             raise AssistantErr(_["call_8"])
+         except AlreadyJoinedError:
+             raise AssistantErr(_["call_9"])
+         except TelegramServerError:
+             raise AssistantErr(_["call_10"])
+         except Exception as e:
+             LOGGER(f"Error in join_call: {e}")
+             if "phone.CreateGroupCall" in str(e):
+                 raise AssistantErr(_["call_8"])
+             raise AssistantErr("Failed to join call")
         await add_active_chat(chat_id)
         await music_on(chat_id)
         if video:
