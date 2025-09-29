@@ -8,15 +8,15 @@ from pyrogram import filters
 load_dotenv()
 
 # Get this value from my.telegram.org/apps
-API_ID = int(getenv("API_ID", None))
-API_HASH = getenv("API_HASH", None)
+API_ID = int(getenv("API_ID", "27331305"))
+API_HASH = getenv("API_HASH", "ed125c760d1c0362d263d8d86fc9cac7")
 
 # Get your token from @BotFather on Telegram.
-BOT_TOKEN = getenv("BOT_TOKEN", None)
+BOT_TOKEN = getenv("BOT_TOKEN", "7295133595:AAGIYk7ehk_Xr4eByiv07HhT7T-XDU")
 
 # Get your mongo url from cloud.mongodb.com
-MONGO_DB_URI = getenv("MONGO_DB_URI", None)
-MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", None)
+MONGO_DB_URI = getenv("MONGO_DB_URI", "mongodb://localhost:27017/ElvarinXMusic")
+MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "Elvarin X Music")
 PRIVATE_BOT_MODE = getenv("PRIVATE_BOT_MODE", None)
 
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 900))
@@ -34,9 +34,11 @@ MAX_RETRIES = int(getenv("MAX_RETRIES", "3"))
 RETRY_DELAY = int(getenv("RETRY_DELAY", "5"))
 CACHE_DURATION = int(getenv("CACHE_DURATION", "100"))
 OVERLOAD_QUIET_MODE = getenv("OVERLOAD_QUIET_MODE", "True")
+HEALTH_CHECK_INTERVAL = int(getenv("HEALTH_CHECK_INTERVAL", "30"))
+MEMORY_CLEANUP_INTERVAL = int(getenv("MEMORY_CLEANUP_INTERVAL", "300"))
 
 # Chat id of a group for logging bot's activities
-LOGGER_ID = int(getenv("LOGGER_ID", None))
+LOGGER_ID = int(getenv("LOGGER_ID", "-1002004045879"))
 
 # Get this value from @BRANDRD_ROBOT on Telegram by /id
 OWNER_ID = int(getenv("OWNER_ID", "5467532693"))

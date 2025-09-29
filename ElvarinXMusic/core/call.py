@@ -47,9 +47,12 @@ loop = asyncio.get_event_loop_policy().get_event_loop()
 
 
 async def _clear_(chat_id):
-    db[chat_id] = []
-    await remove_active_video_chat(chat_id)
-    await remove_active_chat(chat_id)
+    try:
+        db[chat_id] = []
+        await remove_active_video_chat(chat_id)
+        await remove_active_chat(chat_id)
+    except Exception as e:
+        LOGGER(f"Error clearing chat {chat_id}: {e}")
 
 
 class Call(PyTgCalls):
@@ -60,55 +63,55 @@ class Call(PyTgCalls):
             api_hash=config.API_HASH,
             session_string=str(config.STRING1),
         )
-         self.one = PyTgCalls(
-             self.userbot1,
-             cache_duration=100,
-             overload_quiet_mode=True,
-         )
+        self.one = PyTgCalls(
+            self.userbot1,
+            cache_duration=100,
+            overload_quiet_mode=True,
+        )
         self.userbot2 = Client(
             name="ElvarinXMusic2",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING2),
         )
-         self.two = PyTgCalls(
-             self.userbot2,
-             cache_duration=100,
-             overload_quiet_mode=True,
-         )
+        self.two = PyTgCalls(
+            self.userbot2,
+            cache_duration=100,
+            overload_quiet_mode=True,
+        )
         self.userbot3 = Client(
             name="ElvarinXMusic3",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING3),
         )
-         self.three = PyTgCalls(
-             self.userbot3,
-             cache_duration=100,
-             overload_quiet_mode=True,
-         )
+        self.three = PyTgCalls(
+            self.userbot3,
+            cache_duration=100,
+            overload_quiet_mode=True,
+        )
         self.userbot4 = Client(
             name="ElvarinXMusic4",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING4),
         )
-         self.four = PyTgCalls(
-             self.userbot4,
-             cache_duration=100,
-             overload_quiet_mode=True,
-         )
+        self.four = PyTgCalls(
+            self.userbot4,
+            cache_duration=100,
+            overload_quiet_mode=True,
+        )
         self.userbot5 = Client(
             name="ElvarinXMusic5",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING5),
         )
-         self.five = PyTgCalls(
-             self.userbot5,
-             cache_duration=100,
-             overload_quiet_mode=True,
-         )
+        self.five = PyTgCalls(
+            self.userbot5,
+            cache_duration=100,
+            overload_quiet_mode=True,
+        )
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -238,7 +241,7 @@ class Call(PyTgCalls):
             db[chat_id][0]["speed_path"] = out
             db[chat_id][0]["speed"] = speed
 
-     async def force_stop_stream(self, chat_id: int):
+    async def force_stop_stream(self, chat_id: int):
          try:
              assistant = await group_assistant(self, chat_id)
              try:
@@ -256,7 +259,7 @@ class Call(PyTgCalls):
          except:
              pass
 
-     async def skip_stream(
+    async def skip_stream(
          self,
          chat_id: int,
          link: str,
@@ -285,7 +288,7 @@ class Call(PyTgCalls):
              LOGGER(f"Error in skip_stream: {e}")
              raise AssistantErr("Failed to skip stream")
 
-     async def seek_stream(self, chat_id, file_path, to_seek, duration, mode):
+    async def seek_stream(self, chat_id, file_path, to_seek, duration, mode):
          try:
              assistant = await group_assistant(self, chat_id)
              stream = (
@@ -348,22 +351,22 @@ class Call(PyTgCalls):
                     video_flags=MediaStream.IGNORE,
                 )
             )
-         try:
-             await assistant.join_group_call(
-                 chat_id,
-                 stream,
-             )
-         except NoActiveGroupCall:
-             raise AssistantErr(_["call_8"])
-         except AlreadyJoinedError:
-             raise AssistantErr(_["call_9"])
-         except TelegramServerError:
-             raise AssistantErr(_["call_10"])
-         except Exception as e:
-             LOGGER(f"Error in join_call: {e}")
-             if "phone.CreateGroupCall" in str(e):
-                 raise AssistantErr(_["call_8"])
-             raise AssistantErr("Failed to join call")
+        try:
+            await assistant.join_group_call(
+                chat_id,
+                stream,
+            )
+        except NoActiveGroupCall:
+            raise AssistantErr(_["call_8"])
+        except AlreadyJoinedError:
+            raise AssistantErr(_["call_9"])
+        except TelegramServerError:
+            raise AssistantErr(_["call_10"])
+        except Exception as e:
+            LOGGER(f"Error in join_call: {e}")
+            if "phone.CreateGroupCall" in str(e):
+                raise AssistantErr(_["call_8"])
+            raise AssistantErr("Failed to join call")
         await add_active_chat(chat_id)
         await music_on(chat_id)
         if video:
@@ -610,16 +613,20 @@ class Call(PyTgCalls):
 
     async def start(self):
         LOGGER(__name__).info("Starting PyTgCalls Client...\n")
-        if config.STRING1:
-            await self.one.start()
-        if config.STRING2:
-            await self.two.start()
-        if config.STRING3:
-            await self.three.start()
-        if config.STRING4:
-            await self.four.start()
-        if config.STRING5:
-            await self.five.start()
+        try:
+            if config.STRING1:
+                await self.one.start()
+            if config.STRING2:
+                await self.two.start()
+            if config.STRING3:
+                await self.three.start()
+            if config.STRING4:
+                await self.four.start()
+            if config.STRING5:
+                await self.five.start()
+        except Exception as e:
+            LOGGER(f"Error starting PyTgCalls: {e}")
+            raise
 
     async def decorators(self):
         @self.one.on_kicked()
