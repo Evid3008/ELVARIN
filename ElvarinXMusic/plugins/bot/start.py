@@ -7,6 +7,7 @@ from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from ElvarinXMusic import app
+from config import START_IMG_URL
 from ElvarinXMusic.misc import _boot_
 from ElvarinXMusic.plugins.sudo.sudoers import sudoers_list
 from ElvarinXMusic.utils.database import (
