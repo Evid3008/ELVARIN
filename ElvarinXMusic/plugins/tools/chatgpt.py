@@ -42,6 +42,6 @@ async def chat_gpt(bot, message):
         print(f"Error occurred: {str(e)}")  # Debugging: Log the error
 
 # Start the bot (assuming this is handled in ElvarinXMusic)
-if __name__ == "__main__":
-    print("Bot is starting...")
-    app.run()  # This starts the bot polling
+# if __name__ == "__main__":
+#     print("Bot is starting...")
+#     app.run()  # This starts the bot polling
