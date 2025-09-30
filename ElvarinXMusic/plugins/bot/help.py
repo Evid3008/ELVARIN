@@ -41,18 +41,16 @@ async def helper_private(
         _ = get_string(language)
         keyboard = help_pannel(_)
         
-        await update.reply_video(
-            video="https://graph.org/file/84d30d4fd04570c0e0256.mp4",
-            caption=_["help_1"].format(SUPPORT_CHAT), reply_markup=keyboard)
+        await update.reply_text(
+            text=_["help_1"].format(SUPPORT_CHAT), reply_markup=keyboard)
 
 
 @app.on_message(filters.command(["help"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def help_com_group(client, message: Message, _):
     keyboard = private_help_panel(_)
-    await message.reply_video(
-        video="https://te.legra.ph/file/51293513e6af319726fe7.mp4",
-        caption=_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard)
+    await message.reply_text(
+        text=_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
 @app.on_callback_query(filters.regex("help_callback") & ~BANNED_USERS)
@@ -100,8 +98,21 @@ async def helper_cb(client, CallbackQuery):
     await CallbackQuery.edit_message_text(Helper.HELP_M, reply_markup=InlineKeyboardMarkup(BUTTONS.MBUTTON))
 
 
-@app.on_callback_query(filters.regex('managebot123'))
+@app.on_callback_query(filters.regex('settings_back_helper'))
 async def on_back_button(client, CallbackQuery):
+    try:
+        await CallbackQuery.answer()
+        language = await get_lang(CallbackQuery.message.chat.id)
+        _ = get_string(language)
+        keyboard = help_pannel(_, True)
+        await CallbackQuery.edit_message_text(
+            _["help_1"].format(SUPPORT_CHAT), reply_markup=keyboard
+        )
+    except Exception as e:
+        print(f"Error in back button: {e}")
+
+@app.on_callback_query(filters.regex('managebot123'))
+async def on_managebot_back(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     cb = callback_data.split(None, 1)[1]
     keyboard = help_pannel(_, True)
