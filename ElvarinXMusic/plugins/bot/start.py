@@ -28,34 +28,11 @@ from strings import get_string
 async def start_pm(client, message: Message, _):
     await add_served_user(message.from_user.id)
     
-    # Send heart reaction
-    await message.react("❤")
-    
-    # Send starting message
-    starting_msg = await message.reply_text("✨ **Starting...** ✨")
-    
-    # Send sticker
-    await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
-    
-    # Delete starting message after 2 seconds
-    await asyncio.sleep(2)
-    await starting_msg.delete()
     
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
             keyboard = help_pannel(_)
-            
-            # Send starting message for help
-            help_starting = await message.reply_text("🔍 **Loading Help...** 🔍")
-            
-            # Send sticker
-            await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
-            
-            # Delete starting message after 1.5 seconds
-            await asyncio.sleep(1.5)
-            await help_starting.delete()
-            
             return await message.reply_photo(
                 photo=config.START_IMG_URL,
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
@@ -70,16 +47,6 @@ async def start_pm(client, message: Message, _):
                 )
             return
         if name[0:3] == "inf":
-            # Send starting message for info
-            info_starting = await message.reply_text("🔍 **Searching Info...** 🔍")
-            
-            # Send sticker
-            await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
-            
-            # Delete starting message after 1 second
-            await asyncio.sleep(1)
-            await info_starting.delete()
-            
             m = await message.reply_text("🔎")
             query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
