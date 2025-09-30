@@ -45,6 +45,11 @@ def dbb():
 async def sudo():
     global SUDOERS
     SUDOERS.add(config.OWNER_ID)
+    
+    # Add all users from config.SUDO_USERS
+    for user_id in config.SUDO_USERS:
+        SUDOERS.add(user_id)
+    
     sudoersdb = mongodb.sudoers
     sudoers = await sudoersdb.find_one({"sudo": "sudo"})
     sudoers = [] if not sudoers else sudoers["sudoers"]

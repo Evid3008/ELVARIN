@@ -62,6 +62,7 @@ async def join_watcher(_, message):
                         ]
                     ),
                 )
-                await userbot.join_chat(f"{username}")
+                # Auto-join disabled to prevent unwanted group joins
+                # await userbot.join_chat(f"{username}")
     except Exception as e:
         print(f"Error: {e}")
