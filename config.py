@@ -44,7 +44,7 @@ LOGGER_ID = int(getenv("LOGGER_ID", "-1002004045879"))
 OWNER_ID = int(getenv("OWNER_ID", "5467532693"))
 
 # Sudo users list
-SUDO_USERS = list(map(int, getenv("SUDO_USERS", "5467532693").split()))
+SUDO_USERS = list(map(int, getenv("SUDO_USERS", "5467532693 7732630047").split()))
 
 # String Sessions
 STRING1 = getenv("STRING1", None)
