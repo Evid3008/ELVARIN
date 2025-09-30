@@ -95,7 +95,11 @@ async def helper_cb(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("mbot_cb") & ~BANNED_USERS)
 async def helper_cb(client, CallbackQuery):
-    await CallbackQuery.edit_message_text(Helper.HELP_M, reply_markup=InlineKeyboardMarkup(BUTTONS.MBUTTON))
+    try:
+        await CallbackQuery.edit_message_text(Helper.HELP_M, reply_markup=InlineKeyboardMarkup(BUTTONS.MBUTTON))
+    except Exception as e:
+        print(f"Error in helper_cb: {e}")
+        await CallbackQuery.answer("Message not modified", show_alert=False)
 
 
 @app.on_callback_query(filters.regex('settings_back_helper'))

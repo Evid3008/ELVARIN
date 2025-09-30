@@ -120,17 +120,11 @@ async def start_pm(client, message: Message, _):
 
         try:
             out = private_panel(_)
-            lol = await message.reply_text("𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ︎ {}.. ❣️".format(message.from_user.mention))
-            await lol.edit_text("𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ {}.. 🥳".format(message.from_user.mention))
-            await lol.edit_text("𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ {}.. 💥".format(message.from_user.mention))
-            await lol.edit_text("𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ {}.. 🤩".format(message.from_user.mention))
-            await lol.edit_text("𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ {}.. 💌".format(message.from_user.mention))
-            await lol.edit_text("𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ {}.. 💞".format(message.from_user.mention))
-               
-            await lol.delete()
-            lols = await message.reply_text("**⚡️ѕ**")
+            
+            # Single starting animation
+            lols = await message.reply_text("**⚡ѕ**")
             await asyncio.sleep(0.1)
-            await lols.edit_text("⚡ѕт")        
+            await lols.edit_text("**⚡ѕт**")        
             await asyncio.sleep(0.1)
             await lols.edit_text("**⚡ѕтα**")
             await asyncio.sleep(0.1)
@@ -145,9 +139,10 @@ async def start_pm(client, message: Message, _):
             await lols.edit_text("**⚡ѕтαятιиg**")
             await asyncio.sleep(0.1)
             await lols.edit_text("**⚡ѕтαятιиg.**")
+            await asyncio.sleep(0.1)
             await lols.edit_text("**⚡ѕтαятιиg....**")
             
-            # Delete starting animation message
+            # Delete starting animation
             await lols.delete()
             
             # Send only one sticker
@@ -181,7 +176,7 @@ async def start_pm(client, message: Message, _):
                 text=_["start_2"].format(message.from_user.mention, app.mention),
                 reply_markup=InlineKeyboardMarkup(out),
             )
-        if await is_on_off(config.LOG):
+        if await is_on_off(2):
             sender_id = message.from_user.id
             sender_name = message.from_user.first_name
             return await app.send_message(
