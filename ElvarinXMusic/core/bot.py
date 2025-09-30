@@ -21,7 +21,13 @@ class Hotty(Client):
     async def start(self):
         await super().start()
         self.id = self.me.id
-        self.name = "ElvarinXMusic"
+        # Keep the special font but fix encoding issues
+        try:
+            self.name = self.me.first_name + " " + (self.me.last_name or "")
+            # Fix encoding issues that cause box characters in logs
+            self.name = self.name.encode('utf-8', 'replace').decode('utf-8')
+        except:
+            self.name = "ElvarinXMusic"
         self.username = self.me.username
         self.mention = self.me.mention
 
