@@ -121,32 +121,13 @@ async def start_pm(client, message: Message, _):
         try:
             out = private_panel(_)
             
-            # Single starting animation
-            lols = await message.reply_text("**⚡ѕ**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕт**")        
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтα**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαя**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαят**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαятι**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαятιи**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαятιиg**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαятιиg.**")
-            await asyncio.sleep(0.1)
-            await lols.edit_text("**⚡ѕтαятιиg....**")
+            # Simple starting animation
+            starting_msg = await message.reply_text("**Starting...**")
+            await asyncio.sleep(1)
+            await starting_msg.delete()
             
-            # Delete starting animation
-            await lols.delete()
-            
-            # Send only one sticker
-            m = await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
+            # Send one sticker
+            await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
             if message.chat.photo:
 
                 userss_photo = await app.download_media(
@@ -160,10 +141,6 @@ async def start_pm(client, message: Message, _):
 
         except AttributeError:
             chat_photo = "assets/nodp.png"
-        
-        # Delete sticker after a short delay
-        await asyncio.sleep(1)
-        await m.delete()
         try:
             await message.reply_photo(
                 photo=chat_photo,
