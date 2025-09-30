@@ -53,23 +53,8 @@ async def settings_mar(client, message: Message, _):
 @app.on_callback_query(filters.regex("gib_source") & ~BANNED_USERS)
 @languageCB
 async def gib_repo(client, CallbackQuery, _):
-    contact_text = """
-**🥀 Contact Information 🥀**
-
-**👑 Owner:** @iq4u8
-**💬 Support:** @iq4us  
-**📢 Channel:** @evidzone
-**👨‍💻 Developer:** @evidclue
-
-**🔗 Links:**
-• Owner: https://t.me/iq4u8
-• Support: https://t.me/iq4us
-• Channel: https://t.me/evidzone
-
-**📝 Note:** For any issues or queries, contact the owner directly.
-"""
     await CallbackQuery.edit_message_text(
-        contact_text,
+        "**Contact: @iq4u8**",
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="settings_back_helper")]]
         ),

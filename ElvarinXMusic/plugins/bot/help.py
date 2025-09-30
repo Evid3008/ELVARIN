@@ -114,6 +114,10 @@ async def on_back_button(client, CallbackQuery):
         )
     except Exception as e:
         print(f"Error in back button: {e}")
+        try:
+            await CallbackQuery.answer("Already at main menu", show_alert=False)
+        except:
+            pass
 
 @app.on_callback_query(filters.regex('managebot123'))
 async def on_managebot_back(client, CallbackQuery):

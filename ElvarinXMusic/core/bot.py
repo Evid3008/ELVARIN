@@ -21,7 +21,7 @@ class Hotty(Client):
     async def start(self):
         await super().start()
         self.id = self.me.id
-        self.name = self.me.first_name + " " + (self.me.last_name or "")
+        self.name = "ElvarinXMusic"
         self.username = self.me.username
         self.mention = self.me.mention
 

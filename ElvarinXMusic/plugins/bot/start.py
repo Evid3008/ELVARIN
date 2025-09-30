@@ -121,13 +121,24 @@ async def start_pm(client, message: Message, _):
         try:
             out = private_panel(_)
             
-            # Simple starting animation
+            # Send reaction
+            await message.react("❤")
+            
+            # Starting message
             starting_msg = await message.reply_text("**Starting...**")
             await asyncio.sleep(1)
             await starting_msg.delete()
             
-            # Send one sticker
-            await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
+            # Send sticker
+            sticker_msg = await message.reply_sticker("CAACAgUAAxkBAAEQI1RlTLnRAy4h9lOS6jgS5FYsQoruOAAC1gMAAg6ryVcldUr_lhPexzME")
+            
+            # Welcome message
+            welcome_msg = await message.reply_text("**Welcome to ElvarinXMusic! 🎵**")
+            await asyncio.sleep(2)
+            
+            # Auto delete sticker and welcome message
+            await sticker_msg.delete()
+            await welcome_msg.delete()
             if message.chat.photo:
 
                 userss_photo = await app.download_media(
