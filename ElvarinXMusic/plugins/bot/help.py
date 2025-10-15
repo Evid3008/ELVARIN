@@ -83,8 +83,6 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(helpers.HELP_11, reply_markup=keyboard)
     elif cb == "hb12":
         await CallbackQuery.edit_message_text(helpers.HELP_12, reply_markup=keyboard)
-    elif cb == "hb13":
-        await CallbackQuery.edit_message_text(helpers.HELP_13, reply_markup=keyboard)
     
 
 @app.on_callback_query(filters.regex("mbot_cb") & ~BANNED_USERS)

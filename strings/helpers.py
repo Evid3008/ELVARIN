@@ -149,12 +149,6 @@ HELP_11 = """
 """
 
 HELP_12 = """
-<b><u>ɪᴍᴀɢᴇ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
-
-/image (/imgs) <query> : Get the images regarding to your query
-"""
-
-HELP_13 = """
 <b><u>ᴀᴄᴛɪᴏɴ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
 
 » ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs ꜰᴏʀ Bᴀɴs & Mᴜᴛᴇ :
