@@ -18,6 +18,7 @@ from config import (
 )
 from ElvarinXMusic import YouTube, app
 from ElvarinXMusic.utils.decorators.language import language, languageCB
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter
 from ElvarinXMusic.utils.formatters import convert_bytes
 from ElvarinXMusic.utils.inline.song import song_markup
 
@@ -31,7 +32,8 @@ async def song_commad_private(client, message: Message, _):
     if url:
         if not await YouTube.exists(url):
             return await message.reply_text(_["song_5"])
-        mystic = await message.reply_text(_["play_1"])
+        mystic = await message.reply_text("✨ 𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈")
+        mystic = await processing_with_typewriter(mystic)
         (
             title,
             duration_min,
@@ -57,7 +59,8 @@ async def song_commad_private(client, message: Message, _):
     else:
         if len(message.command) < 2:
             return await message.reply_text(_["song_2"])
-    mystic = await message.reply_text(_["play_1"])
+    mystic = await message.reply_text("✨ 𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈")
+    mystic = await processing_with_typewriter(mystic)
     query = message.text.split(None, 1)[1]
     try:
         (

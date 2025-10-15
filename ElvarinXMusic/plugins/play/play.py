@@ -20,6 +20,7 @@ from ElvarinXMusic.utils.inline import (
     slider_markup,
     track_markup,
 )
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter
 from ElvarinXMusic.utils.logger import play_logs
 from ElvarinXMusic.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
@@ -53,9 +54,8 @@ async def play_commnd(
     url,
     fplay,
 ):
-    mystic = await message.reply_text(
-        _["play_2"].format(channel) if channel else _["play_1"]
-    )
+    mystic = await message.reply_text("✨ 𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈")
+    mystic = await processing_with_typewriter(mystic)
     plist_id = None
     slider = None
     plist_type = None

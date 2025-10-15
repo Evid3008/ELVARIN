@@ -3,6 +3,7 @@ from pyrogram import filters
 from ElvarinXMusic import YouTube, app
 from ElvarinXMusic.utils.channelplay import get_channeplayCB
 from ElvarinXMusic.utils.decorators.language import languageCB
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter
 from ElvarinXMusic.utils.stream.stream import stream
 from config import BANNED_USERS
 
@@ -29,9 +30,8 @@ async def play_live_stream(client, CallbackQuery, _):
         await CallbackQuery.answer()
     except:
         pass
-    mystic = await CallbackQuery.message.reply_text(
-        _["play_2"].format(channel) if channel else _["play_1"]
-    )
+    mystic = await CallbackQuery.message.reply_text("✨ 𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈")
+    mystic = await processing_with_typewriter(mystic)
     try:
         details, track_id = await YouTube.track(vidid, True)
     except:

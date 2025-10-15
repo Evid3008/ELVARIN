@@ -22,6 +22,8 @@ from ElvarinXMusic.utils.database import (
     get_playtype,
 )
 from ElvarinXMusic.utils.logger import play_logs
+import asyncio
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter
 from ElvarinXMusic.utils.stream.stream import stream
 
 RADIO_STATION = {
@@ -152,9 +154,8 @@ async def radio(client, message: Message):
             channel = None
 
         video = None
-        mystic = await message.reply_text(
-            _["play_2"].format(channel) if channel else _["play_1"]
-        )
+        mystic = await message.reply_text("✨ 𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈")
+        mystic = await processing_with_typewriter(mystic)
         try:
             await stream(
                 _,

@@ -107,6 +107,19 @@ def PlayWrapper(command):
                 video = True
             else:
                 video = True if message.command[0][1] == "v" else None
+                
+        # Auto-detect video content based on keywords
+        if video is None and len(message.command) > 1:
+            query = " ".join(message.command[1:]).lower()
+            video_keywords = [
+                "720p", "1080p", "4k", "bluray", "blu-ray", "hevc", "x265", "x264",
+                "hdr", "uhd", "movie", "film", "cinema", "hd", "full hd", "fhd",
+                "webrip", "web-dl", "brrip", "dvdrip", "hdtv", "satrip", "camrip",
+                "ts", "tc", "scr", "dvdscr", "r5", "r6", "bdrip", "bd-rip"
+            ]
+            if any(keyword in query for keyword in video_keywords):
+                video = True
+                
         if message.command[0][-1] == "e":
             if not await is_active_chat(chat_id):
                 return await message.reply_text(_["play_18"])
@@ -276,6 +289,19 @@ def CPlayWrapper(command):
                 video = True
             else:
                 video = True if message.command[0][1] == "v" else None
+                
+        # Auto-detect video content based on keywords
+        if video is None and len(message.command) > 1:
+            query = " ".join(message.command[1:]).lower()
+            video_keywords = [
+                "720p", "1080p", "4k", "bluray", "blu-ray", "hevc", "x265", "x264",
+                "hdr", "uhd", "movie", "film", "cinema", "hd", "full hd", "fhd",
+                "webrip", "web-dl", "brrip", "dvdrip", "hdtv", "satrip", "camrip",
+                "ts", "tc", "scr", "dvdscr", "r5", "r6", "bdrip", "bd-rip"
+            ]
+            if any(keyword in query for keyword in video_keywords):
+                video = True
+                
         if message.command[0][-1] == "e":
             if not await is_active_chat(chat_id):
                 return await message.reply_text(_["play_16"])
