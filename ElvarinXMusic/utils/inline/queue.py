@@ -73,13 +73,13 @@ def aq_markup(_, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text="𝗢𝗪𝗡𝗘𝗥", url="https://t.me/iq4u8"
+                text="OWNER", url="https://t.me/iq4u8"
             ),
             InlineKeyboardButton(
-                text="⥯", callback_data="autoplay_mode"
+                text="⇌", callback_data="autoplay_mode"
             ),
             InlineKeyboardButton(
-                text="𝗦𝗨𝗣𝗣𝗢𝗥𝗧", url="https://t.me/iq4us"
+                text="SUPPORT", url="https://t.me/iq4us"
             ),
         ],
         [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
