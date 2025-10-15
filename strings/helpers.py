@@ -63,15 +63,42 @@ sᴛᴀʀᴛs ɪɢɴᴏʀɪɴɢ ᴛʜᴇ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴜsᴇʀ, 
 """
 
 HELP_6 = """
-<u><b>ᴄʜᴀɴɴᴇʟ ᴩʟᴀʏ ᴄᴏᴍᴍᴀɴᴅs:</b></u>
+<b><u>𝐒𝐓𝐑𝐄𝐀𝐌 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 :</b></u>
 
-ʏᴏᴜ ᴄᴀɴ sᴛʀᴇᴀᴍ ᴀᴜᴅɪᴏ/ᴠɪᴅᴇᴏ ɪɴ ᴄʜᴀɴɴᴇʟ.
+<b>🎵 𝐏𝐋𝐀𝐘 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 :</b>
+/play or /vplay : starts streaming the requested track on videochat.
+/playforce or /vplayforce : stops the ongoing stream and starts streaming the requested track.
 
-/cplay : sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ʀᴇǫᴜᴇsᴛᴇᴅ ᴀᴜᴅɪᴏ ᴛʀᴀᴄᴋ ᴏɴ ᴄʜᴀɴɴᴇʟ's ᴠɪᴅᴇᴏᴄʜᴀᴛ.
-/cvplay : sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ʀᴇǫᴜᴇsᴛᴇᴅ ᴠɪᴅᴇᴏ ᴛʀᴀᴄᴋ ᴏɴ ᴄʜᴀɴɴᴇʟ's ᴠɪᴅᴇᴏᴄʜᴀᴛ.
-/cplayforce or /cvplayforce : sᴛᴏᴩs ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ ᴀɴᴅ sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ʀᴇǫᴜᴇsᴛᴇᴅ ᴛʀᴀᴄᴋ.
+<b>v :</b> stands for video play.
+<b>force :</b> stands for force play.
 
-/channelplay [ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ ᴏʀ ɪᴅ] ᴏʀ [ᴅɪsᴀʙʟᴇ] : ᴄᴏɴɴᴇᴄᴛ ᴄʜᴀɴɴᴇʟ ᴛᴏ ᴀ ɢʀᴏᴜᴩ ᴀɴᴅ sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʀᴀᴄᴋs ʙʏ ᴛʜᴇ ʜᴇʟᴩ ᴏғ ᴄᴏᴍᴍᴀɴᴅs sᴇɴᴛ ɪɴ ɢʀᴏᴜᴩ.
+<b>📺 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐏𝐋𝐀𝐘 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 :</b>
+/cplay : starts streaming the requested audio track on channel's videochat.
+/cvplay : starts streaming the requested video track on channel's videochat.
+/cplayforce or /cvplayforce : stops the ongoing stream and starts streaming the requested track.
+
+/channelplay [chat username or id] or [disable] : connect channel to a group and starts streaming tracks by the help of commands sent in group.
+
+<b>🔄 𝐋𝐎𝐎𝐏 𝐒𝐓𝐑𝐄𝐀𝐌 :</b>
+/loop [enable/disable] : enables/disables loop for the ongoing stream
+/loop [1, 2, 3, ...] : enables the loop for the given value.
+
+<b>🔀 𝐒𝐇𝐔𝐅𝐅𝐋𝐄 𝐐𝐔𝐄𝐔𝐄 :</b>
+/shuffle : shuffle's the queue.
+/queue : shows the shuffled queue.
+
+<b>⏩ 𝐒𝐄𝐄𝐊 𝐒𝐓𝐑𝐄𝐀𝐌 :</b>
+/seek [duration in seconds] : seek the stream to the given duration.
+/seekback [duration in seconds] : backward seek the stream to the the given duration.
+
+<b>🎶 𝐒𝐎𝐍𝐆 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃 :</b>
+/song [song name/yt url] : download any track from youtube in mp3 or mp4 formats.
+
+<b>⚡ 𝐒𝐏𝐄𝐄𝐃 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 :</b>
+You can control the playback speed of the ongoing stream. [admins only]
+
+/speed or /playback : for adjusting the audio playback speed in group.
+/cspeed or /cplayback : for adjusting the audio playback speed in channel.
 """
 
 HELP_7 = """
@@ -83,15 +110,6 @@ HELP_7 = """
 """
 
 HELP_8 = """
-<b><u>ʟᴏᴏᴘ sᴛʀᴇᴀᴍ :</b></u>
-
-<b>sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ ɪɴ ʟᴏᴏᴘ</b>
-
-/loop [enable/disable] : ᴇɴᴀʙʟᴇs/ᴅɪsᴀʙʟᴇs ʟᴏᴏᴘ ғᴏʀ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ
-/loop [1, 2, 3, ...] : ᴇɴᴀʙʟᴇs ᴛʜᴇ ʟᴏᴏᴘ ғᴏʀ ᴛʜᴇ ɢɪᴠᴇɴ ᴠᴀʟᴜᴇ.
-"""
-
-HELP_9 = """
 <u><b>ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ᴍᴏᴅᴇ</b></u> [ᴏɴʟʏ ғᴏʀ sᴜᴅᴏᴇʀs] :
 
 /logs : ɢᴇᴛ ʟᴏɢs ᴏғ ᴛʜᴇ ʙᴏᴛ.
@@ -101,7 +119,7 @@ HELP_9 = """
 /maintenance [ᴇɴᴀʙʟᴇ/ᴅɪsᴀʙʟᴇ] : ᴇɴᴀʙʟᴇ ᴏʀ ᴅɪsᴀʙʟᴇ ᴛʜᴇ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ᴍᴏᴅᴇ ᴏғ ʏᴏᴜʀ ʙᴏᴛ.
 """
 
-HELP_10 = """
+HELP_9 = """
 <b><u>ᴘɪɴɢ & sᴛᴀᴛs :</b></u>
 
 /start : sᴛᴀʀᴛs ᴛʜᴇ ᴍᴜsɪᴄ ʙᴏᴛ.
@@ -112,47 +130,7 @@ HELP_10 = """
 /stats : sʜᴏᴡs ᴛʜᴇ ᴏᴠᴇʀᴀʟʟ sᴛᴀᴛs ᴏғ ᴛʜᴇ ʙᴏᴛ.
 """
 
-HELP_11 = """
-<u><b>ᴩʟᴀʏ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
-
-<b>v :</b> sᴛᴀɴᴅs ғᴏʀ ᴠɪᴅᴇᴏ ᴩʟᴀʏ.
-<b>force :</b> sᴛᴀɴᴅs ғᴏʀ ғᴏʀᴄᴇ ᴩʟᴀʏ.
-
-/play ᴏʀ /vplay : sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ʀᴇǫᴜᴇsᴛᴇᴅ ᴛʀᴀᴄᴋ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.
-
-/playforce ᴏʀ /vplayforce : sᴛᴏᴩs ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ ᴀɴᴅ sᴛᴀʀᴛs sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ʀᴇǫᴜᴇsᴛᴇᴅ ᴛʀᴀᴄᴋ.
-"""
-
-HELP_12 = """
-<b><u>sʜᴜғғʟᴇ ᴏ̨ᴜᴇᴜᴇ :</b></u>
-
-/shuffle : sʜᴜғғʟᴇ's ᴛʜᴇ ᴏ̨ᴜᴇᴜᴇ.
-/queue : sʜᴏᴡs ᴛʜᴇ sʜᴜғғʟᴇᴅ ᴏ̨ᴜᴇᴜᴇ.
-"""
-
-HELP_13 = """
-<b><u>sᴇᴇᴋ sᴛʀᴇᴀᴍ :</b></u>
-
-/seek [ᴅᴜʀᴀᴛɪᴏɴ ɪɴ sᴇᴄᴏɴᴅs] : sᴇᴇᴋ ᴛʜᴇ sᴛʀᴇᴀᴍ ᴛᴏ ᴛʜᴇ ɢɪᴠᴇɴ ᴅᴜʀᴀᴛɪᴏɴ.
-/seekback [ᴅᴜʀᴀᴛɪᴏɴ ɪɴ sᴇᴄᴏɴᴅs] : ʙᴀᴄᴋᴡᴀʀᴅ sᴇᴇᴋ ᴛʜᴇ sᴛʀᴇᴀᴍ ᴛᴏ ᴛʜᴇ ᴛʜᴇ ɢɪᴠᴇɴ ᴅᴜʀᴀᴛɪᴏɴ.
-"""
-
-HELP_14 = """
-<b><u>sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅ</b></u>
-
-/song [sᴏɴɢ ɴᴀᴍᴇ/ʏᴛ ᴜʀʟ] : ᴅᴏᴡɴʟᴏᴀᴅ ᴀɴʏ ᴛʀᴀᴄᴋ ғʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ ɪɴ ᴍᴘ3 ᴏʀ ᴍᴘ4 ғᴏʀᴍᴀᴛs.
-"""
-
-HELP_15 = """
-<b><u>sᴘᴇᴇᴅ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
-
-ʏᴏᴜ ᴄᴀɴ ᴄᴏɴᴛʀᴏʟ ᴛʜᴇ ᴘʟᴀʏʙᴀᴄᴋ sᴘᴇᴇᴅ ᴏғ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ. [ᴀᴅᴍɪɴs ᴏɴʟʏ]
-
-/speed or /playback : ғᴏʀ ᴀᴅᴊᴜsᴛɪɴɢ ᴛʜᴇ ᴀᴜᴅɪᴏ ᴘʟᴀʏʙᴀᴄᴋ sᴘᴇᴇᴅ ɪɴ ɢʀᴏᴜᴘ.
-/cspeed or /cplayback : ғᴏʀ ᴀᴅᴊᴜsᴛɪɴɢ ᴛʜᴇ ᴀᴜᴅɪᴏ ᴘʟᴀʏʙᴀᴄᴋ sᴘᴇᴇᴅ ɪɴ ᴄʜᴀɴɴᴇʟ.
-"""
-
-HELP_16 = """
+HELP_10 = """
 <b><u>ᴀᴅᴅ ᴍᴇᴍʙᴇʀ ᴄᴏᴍᴍᴀɴᴅs :</b></u> [ᴏɴʟʏ ғᴏʀ ᴏᴡɴᴇʀ]
 
 ᴀᴅᴅ ᴜsᴇʀs ᴛᴏ ɢʀᴏᴜᴘs ʙʏ ᴜsᴇʀɴᴀᴍᴇ ᴏʀ ʟɪɴᴋ.
@@ -169,4 +147,85 @@ HELP_16 = """
 • ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜᴇsᴇ ᴄᴏᴍᴍᴀɴᴅs
 • ʙᴏᴛ ᴍᴜsᴛ ʙᴇ ᴀᴅᴍɪɴ ɪɴ ᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ
 • ʙᴏᴛ ᴍᴜsᴛ ʜᴀᴠᴇ "ᴀᴅᴅ ᴍᴇᴍʙᴇʀs" ᴘᴇʀᴍɪssɪᴏɴ
+"""
+
+HELP_11 = """
+<b><u>ʀᴇᴇʟ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+/ig [URL] ➠ ᴅᴏᴡɴʟᴏᴀᴅ ɪɴsᴛᴀɢʀᴀᴍ ʀᴇᴇʟs. Pʀᴏᴠɪᴅᴇ ᴛʜᴇ ɪɴsᴛᴀɢʀᴀᴍ ʀᴇᴇʟ URL ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ.
+/instagram [URL] ➠ ᴅᴏᴡɴʟᴏᴀᴅ ɪɴsᴛᴀɢʀᴀᴍ ʀᴇᴇʟs. Pʀᴏᴠɪᴅᴇ ᴛʜᴇ ɪɴsᴛᴀɢʀᴀᴍ ʀᴇᴇʟ URL ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ.
+/reel [URL]  ➠ ᴅᴏᴡɴʟᴏᴀᴅ ɪɴsᴛᴀɢʀᴀᴍ ʀᴇᴇʟs. Pʀᴏᴠɪᴅᴇ ᴛʜᴇ ɪɴsᴛᴀɢʀᴀᴍ ʀᴇᴇʟ URL ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ.
+"""
+
+HELP_12 = """
+<b><u>ᴛᴀɢ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+✿ ᴄʜᴏᴏsᴇ ᴛᴀɢ ɪɴ ʏᴏᴜʀ ᴄʜᴀᴛ ✿
+
+๏ /gmtag ➛ ɢᴏᴏᴅ ᴍᴏʀɴɪɴɢ 
+ᴛᴀɢ sᴛᴏᴘ ⇴ /gmstop
+
+๏ /gntag ➛ ɢᴏᴏᴅ ɴɪɢʜᴛ ᴛᴀɢ sᴛᴏᴘ ⇴ /gnstop
+
+๏ /tagall ➛ ʀᴀɴᴅᴏᴍ ᴍᴇssᴀɢᴇ ᴛᴀɢ sᴛᴏᴘ ⇴ /tagoff /tagstop
+
+๏ /hitag ➛ ʀᴀɴᴅᴏᴍ ʜɪɴᴅɪ ᴍᴇssᴀɢᴇ ᴛᴀɢ sᴛᴏᴘ ⇴/histop
+
+๏ /shayari ➛ ʀᴀɴᴅᴏᴍ sʜᴀʏᴀʀɪ ᴛᴀɢ sᴛᴏᴘ ⇴ /shstop
+
+๏ /utag ➛ ᴀɴʏ ᴡʀɪᴛᴛᴇɴ ᴛᴇxᴛ ᴛᴀɢ sᴛᴏᴘ ⇴ /cancel
+"""
+
+HELP_13 = """
+<b><u>ɪɴғᴏ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+/id : ɢᴇᴛ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ɢʀᴏᴜᴘ ɪᴅ. ɪғ ᴜsᴇᴅ ʙʏ ʀᴇᴘʟʏɪɴɢ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ, ɢᴇᴛs ᴛʜᴀᴛ ᴜsᴇʀ's ɪᴅ.
+/info : ɢᴇᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴀ ᴜsᴇʀ.
+"""
+
+HELP_14 = """
+<b><u>ʜɪsᴛᴏʀʏ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+/history : sʜᴏᴡs ᴛʜᴇ ʜɪsᴛᴏʀʏ ᴏғ ᴘʟᴀʏᴇᴅ ᴛʀᴀᴄᴋs.
+"""
+
+HELP_15 = """
+<b><u>ᴇxᴛʀᴀ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+/tgm ➠ ᴜᴘʟᴏᴀᴅs ᴀ ᴘʜᴏᴛᴏ (ᴜɴᴅᴇʀ 𝟻ᴍʙ) ᴛᴏ ᴛʜᴇ ᴄʟᴏᴜᴅ ᴀɴᴅ ɢɪᴠᴇs ᴀ ʟɪɴᴋ.
+/paste ➠ ᴜᴘʟᴏᴀᴅs ᴀ ᴛᴇxᴛ sɴɪᴘᴘᴇᴛ ᴛᴏ ᴛʜᴇ ᴄʟᴏᴜᴅ ᴀɴᴅ ɢɪᴠᴇs ᴀ ʟɪɴᴋ.
+/tr ➠ ᴛʀᴀɴsʟᴀᴛᴇs ᴛᴇxᴛ.
+"""
+
+HELP_16 = """
+<b><u>ɪᴍᴀɢᴇ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+/image (/imgs) <query> : Get the images regarding to your query
+"""
+
+HELP_17 = """
+<b><u>ᴀᴄᴛɪᴏɴ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+» ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs ꜰᴏʀ Bᴀɴs & Mᴜᴛᴇ :
+
+ ❍ /kickme: kicks the user who issued the command
+
+Admins only:
+ ❍ /ban <userhandle>: bans a user. (via handle, or reply)
+ ❍ /sban <userhandle>: Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
+ ❍ /tban <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+ ❍ /unban <userhandle>: unbans a user. (via handle, or reply)
+ ❍ /kick <userhandle>: kicks a user out of the group, (via handle, or reply)
+ ❍ /mute <userhandle>: silences a user. Can also be used as a reply, muting the replied to user.
+ ❍ /tmute <userhandle> x(m/h/d): mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+ ❍ /unmute <userhandle>: unmutes a user. Can also be used as a reply, muting the replied to user.
+"""
+
+HELP_18 = """
+<b><u>sᴇᴀʀᴄʜ ᴄᴏᴍᴍᴀɴᴅs :</b></u>
+
+• /google <query> : Search the google for the given query.
+
+Example:
+/google pyrogram: return top 5 reuslts.
 """
