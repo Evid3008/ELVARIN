@@ -3,6 +3,17 @@ import random
 from pyrogram.types import Message
 
 
+def get_random_emoji():
+    """
+    Get a random emoji from the list
+    """
+    emojis = [
+        "👀", "🦋", "🐰", "🐟", "🌸", "🎬", "🎲", "🪄", "🐱", "🔍",
+        "👁", "🎃", "🎄", "🎆", "🎇", "✨", "🎉", "🎊", "🎈", "🍭"
+    ]
+    return random.choice(emojis)
+
+
 async def random_emoji_animation(message: Message):
     """
     Show random animated emoji instead of typewriter effect
@@ -11,7 +22,7 @@ async def random_emoji_animation(message: Message):
     # List of random emojis for animation - only large animated ones in Telegram
     emojis = [
         "👀", "🦋", "🐰", "🐟", "🌸", "🎬", "🎲", "🪄", "🐱", "🔍",
-        "👁", "🎃", "🎄", "🎆", "🎇", "✨", "🎉", "🎊", "🎈", "🎁"
+        "👁", "🎃", "🎄", "🎆", "🎇", "✨", "🎉", "🎊", "🎈", "🍭"
     ]
     
     # Select a random emoji
@@ -34,7 +45,7 @@ async def processing_with_typewriter(message: Message, base_text: str = "✨ �
     # List of random emojis for animation - only large animated ones in Telegram
     emojis = [
         "👀", "🦋", "🐰", "🐟", "🌸", "🎬", "🎲", "🪄", "🐱", "🔍",
-        "👁", "🎃", "🎄", "🎆", "🎇", "✨", "🎉", "🎊", "🎈", "🎁"
+        "👁", "🎃", "🎄", "🎆", "🎇", "✨", "🎉", "🎊", "🎈", "🍭"
     ]
     
     # Select a random emoji

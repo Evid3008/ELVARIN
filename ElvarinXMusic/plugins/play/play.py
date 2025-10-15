@@ -20,7 +20,7 @@ from ElvarinXMusic.utils.inline import (
     slider_markup,
     track_markup,
 )
-from ElvarinXMusic.utils.typewriter import processing_with_typewriter
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter, get_random_emoji
 from ElvarinXMusic.utils.logger import play_logs
 from ElvarinXMusic.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
@@ -54,7 +54,7 @@ async def play_commnd(
     url,
     fplay,
 ):
-    mystic = await message.reply_text("🦋")
+    mystic = await message.reply_text(get_random_emoji())
     mystic = await processing_with_typewriter(mystic)
     plist_id = None
     slider = None

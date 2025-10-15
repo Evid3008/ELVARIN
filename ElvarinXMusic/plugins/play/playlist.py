@@ -19,7 +19,7 @@ from ElvarinXMusic.utils.inline.playlist import (
     get_playlist_markup,
     warning_markup,
 )
-from ElvarinXMusic.utils.typewriter import processing_with_typewriter
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter, get_random_emoji
 from ElvarinXMusic.utils.stream.stream import stream
 
 # Define a dictionary to track the last message timestamp for each user
@@ -220,7 +220,7 @@ async def play_playlist(client, CallbackQuery, _):
     except:
         pass
     video = True if mode == "v" else None
-    mystic = await CallbackQuery.message.reply_text("🐟")
+    mystic = await CallbackQuery.message.reply_text(get_random_emoji())
     mystic = await processing_with_typewriter(mystic)
     for vidids in _playlist:
         result.append(vidids)
@@ -270,7 +270,7 @@ async def play_playlist_command(client, message, _):
 
     result = []
     video = True if mode == "v" else None
-    mystic = await message.reply_text("🌸")
+    mystic = await message.reply_text(get_random_emoji())
     mystic = await processing_with_typewriter(mystic)
 
     for vidids in _playlist:
