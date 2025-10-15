@@ -12,15 +12,16 @@ ydl_opts = {
     "extract_flat": False,
     "writethumbnail": False,
     "writeinfojson": False,
-    "concurrent_fragment_downloads": 3,
-    "http_chunk_size": 10485760,
-    "retries": 3,
-    "fragment_retries": 3,
+    "concurrent_fragment_downloads": 5,
+    "http_chunk_size": 20971520,
+    "retries": 5,
+    "fragment_retries": 5,
+    "socket_timeout": 30,
     "postprocessors": [
         {
             "key": "FFmpegExtractAudio",
             "preferredcodec": "mp3",
-            "preferredquality": "192",  # Reduced quality for faster processing
+            "preferredquality": "128",  # Further reduced for faster processing
         }
     ],
 }

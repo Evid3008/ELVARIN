@@ -20,10 +20,11 @@ def download(url: str, my_hook) -> str:
         "nocheckcertificate": True,
         "quiet": True,
         "no_warnings": True,
-        "concurrent_fragment_downloads": 3,
-        "http_chunk_size": 10485760,
-        "retries": 3,
-        "fragment_retries": 3,
+        "concurrent_fragment_downloads": 5,
+        "http_chunk_size": 20971520,
+        "retries": 5,
+        "fragment_retries": 5,
+        "socket_timeout": 30,
     }
     info = ytdl.extract_info(url, False)
     try:

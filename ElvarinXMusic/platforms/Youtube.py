@@ -313,10 +313,11 @@ class YouTubeAPI:
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "concurrent_fragment_downloads": 3,
-                "http_chunk_size": 10485760,
-                "retries": 3,
-                "fragment_retries": 3,
+                "concurrent_fragment_downloads": 5,
+                "http_chunk_size": 20971520,
+                "retries": 5,
+                "fragment_retries": 5,
+                "socket_timeout": 30,
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -328,17 +329,18 @@ class YouTubeAPI:
 
         def video_dl():
             ydl_optssx = {
-                "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
+                "format": "(bestvideo[height<=?480][width<=?854][ext=mp4])+(bestaudio[ext=m4a])",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "concurrent_fragment_downloads": 3,
-                "http_chunk_size": 10485760,
-                "retries": 3,
-                "fragment_retries": 3,
+                "concurrent_fragment_downloads": 5,
+                "http_chunk_size": 20971520,
+                "retries": 5,
+                "fragment_retries": 5,
+                "socket_timeout": 30,
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -361,6 +363,11 @@ class YouTubeAPI:
                 "cookiefile" : cookie_txt_file(),
                 "prefer_ffmpeg": True,
                 "merge_output_format": "mp4",
+                "concurrent_fragment_downloads": 5,
+                "http_chunk_size": 20971520,
+                "retries": 5,
+                "fragment_retries": 5,
+                "socket_timeout": 30,
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             x.download([link])
@@ -376,17 +383,16 @@ class YouTubeAPI:
                 "no_warnings": True,
                 "cookiefile" : cookie_txt_file(),
                 "prefer_ffmpeg": True,
+                "concurrent_fragment_downloads": 5,
+                "http_chunk_size": 20971520,
+                "retries": 5,
+                "fragment_retries": 5,
+                "socket_timeout": 30,
                 "postprocessors": [
                     {
                         "key": "FFmpegExtractAudio",
                         "preferredcodec": "mp3",
-                        "preferredquality": "320",
-                    },
-                    {
-                        "key": "FFmpegAudioFilters",
-                        "preprocessor_args": [
-                            "-af", "bass=g=12:f=120,treble=g=6:f=12000,volume=1.2,highpass=f=15,lowpass=f=20000,acompressor=threshold=0.3:ratio=3:attack=5:release=50"
-                        ]
+                        "preferredquality": "128",  # Reduced for faster processing
                     }
                 ],
             }
