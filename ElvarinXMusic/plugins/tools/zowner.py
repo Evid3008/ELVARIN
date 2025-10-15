@@ -8,24 +8,6 @@ from ElvarinXMusic.mongo.afkdb import LOGGERS as OWNERS
 from ElvarinXMusic.utils.database import add_served_chat, get_assistant
 
 
-@app.on_message(filters.command("repo"))
-async def help(client: Client, message: Message):
-    await message.reply_text(
-        text="""**Source Code & Contact** 
-
-Click below button to get repository link.
-
-**Contact:** @iq4u8""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "Source Code", url=f"https://github.com/"
-                    )
-                ]
-            ]
-        ),
-    )
 
 
 @app.on_message(filters.command("clone"))
@@ -108,12 +90,12 @@ async def add_allbot(client, message):
         await message.reply(f"Error: {str(e)}")
 
 
-__MODULE__ = "Sᴏᴜʀᴄᴇ"
+__MODULE__ = "Oᴡɴᴇʀ"
 __HELP__ = """
-## Rᴇᴘᴏ Sᴏᴜʀᴄᴇ Mᴏᴅᴜᴇ
+## Oᴡɴᴇʀ Mᴏᴅᴜʟᴇ
 
-Tʜɪs ᴍᴏᴅᴜᴇ ᴘʀᴏᴠɪᴅᴇs ᴜᴛɪɪᴛʏ ᴄᴏᴍᴍᴀɴᴅs ғᴏʀ ᴜsᴇʀs ᴛᴏ ɪɴᴛᴇʀᴀᴄᴛ ᴡɪᴛʜ ᴛʜᴇ ʙᴏᴛ.
+Tʜɪs ᴍᴏᴅᴜʟᴇ ᴘʀᴏᴠɪᴅᴇs ᴏᴡɴᴇʀ-ᴏɴʟʏ ᴄᴏᴍᴍᴀɴᴅs.
 
 ### Cᴏᴍᴍᴀɴᴅs:
-- `/ʀᴇᴘᴏ`: Gᴇᴛ ᴛʜᴇ ɪɴᴋ ᴛᴏ ᴛʜᴇ ʙᴏᴛ's sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ ʀᴇᴘᴏsɪᴛᴏʀʏ.
+- `/clone`: Cʟᴏɴᴇ ʙᴏᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
 """
