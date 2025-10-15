@@ -2,7 +2,7 @@ import os
 from yt_dlp import YoutubeDL
 
 ydl_opts = {
-    "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio[ext=opus]/bestaudio/best",
+    "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
     "outtmpl": "downloads/%(id)s.%(ext)s",
     "geo_bypass": True,
     "nocheckcertificate": True,
@@ -12,17 +12,15 @@ ydl_opts = {
     "extract_flat": False,
     "writethumbnail": False,
     "writeinfojson": False,
+    "concurrent_fragment_downloads": 3,
+    "http_chunk_size": 10485760,
+    "retries": 3,
+    "fragment_retries": 3,
     "postprocessors": [
         {
             "key": "FFmpegExtractAudio",
             "preferredcodec": "mp3",
-            "preferredquality": "320",
-        },
-        {
-            "key": "FFmpegAudioFilters",
-            "preprocessor_args": [
-                "-af", "bass=g=12:f=120,treble=g=6:f=12000,volume=1.2,highpass=f=15,lowpass=f=20000,acompressor=threshold=0.3:ratio=3:attack=5:release=50"
-            ]
+            "preferredquality": "192",  # Reduced quality for faster processing
         }
     ],
 }

@@ -306,13 +306,17 @@ class YouTubeAPI:
         loop = asyncio.get_running_loop()
         def audio_dl():
             ydl_optssx = {
-                "format": "bestaudio/best",
+                "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
+                "concurrent_fragment_downloads": 3,
+                "http_chunk_size": 10485760,
+                "retries": 3,
+                "fragment_retries": 3,
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -331,6 +335,10 @@ class YouTubeAPI:
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
+                "concurrent_fragment_downloads": 3,
+                "http_chunk_size": 10485760,
+                "retries": 3,
+                "fragment_retries": 3,
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)

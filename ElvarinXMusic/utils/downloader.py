@@ -14,12 +14,16 @@ ytdl = yt_dlp.YoutubeDL(
 
 def download(url: str, my_hook) -> str:
     ydl_optssx = {
-        "format": "bestaudio[ext=m4a]",
+        "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
         "outtmpl": "downloads/%(id)s.%(ext)s",
         "geo_bypass": True,
         "nocheckcertificate": True,
         "quiet": True,
         "no_warnings": True,
+        "concurrent_fragment_downloads": 3,
+        "http_chunk_size": 10485760,
+        "retries": 3,
+        "fragment_retries": 3,
     }
     info = ytdl.extract_info(url, False)
     try:
