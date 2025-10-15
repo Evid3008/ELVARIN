@@ -318,6 +318,12 @@ class YouTubeAPI:
                 "retries": 5,
                 "fragment_retries": 5,
                 "socket_timeout": 30,
+                "extractor_retries": 3,
+                "fragment_retries": 5,
+                "skip_unavailable_fragments": True,
+                "http_headers": {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                }
             }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)

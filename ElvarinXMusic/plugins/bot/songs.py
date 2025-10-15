@@ -18,7 +18,7 @@ from config import (
 )
 from ElvarinXMusic import YouTube, app
 from ElvarinXMusic.utils.decorators.language import language, languageCB
-from ElvarinXMusic.utils.typewriter import processing_with_typewriter
+from ElvarinXMusic.utils.typewriter import processing_with_typewriter, get_random_emoji
 from ElvarinXMusic.utils.formatters import convert_bytes
 from ElvarinXMusic.utils.inline.song import song_markup
 
