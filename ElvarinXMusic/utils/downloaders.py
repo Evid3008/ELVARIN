@@ -29,9 +29,17 @@ ydl = YoutubeDL(ydl_opts)
 
 
 def audio_dl(url: str) -> str:
-    sin = ydl.extract_info(url, False)
-    x_file = os.path.join("downloads", f"{sin['id']}.mp3")
-    if os.path.exists(x_file):
+    try:
+        sin = ydl.extract_info(url, False)
+        if not sin:
+            raise Exception("Failed to extract video info")
+        
+        x_file = os.path.join("downloads", f"{sin['id']}.mp3")
+        if os.path.exists(x_file):
+            return x_file
+        
+        ydl.download([url])
         return x_file
-    ydl.download([url])
-    return x_file
+    except Exception as e:
+        print(f"Audio download error: {e}")
+        raise e

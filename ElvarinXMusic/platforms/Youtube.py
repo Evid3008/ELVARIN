@@ -319,19 +319,25 @@ class YouTubeAPI:
                 "fragment_retries": 5,
                 "socket_timeout": 30,
                 "extractor_retries": 3,
-                "fragment_retries": 5,
                 "skip_unavailable_fragments": True,
                 "http_headers": {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
                 }
             }
-            x = yt_dlp.YoutubeDL(ydl_optssx)
-            info = x.extract_info(link, False)
-            xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
-            if os.path.exists(xyz):
+            try:
+                x = yt_dlp.YoutubeDL(ydl_optssx)
+                info = x.extract_info(link, False)
+                if not info:
+                    raise Exception("Failed to extract video info")
+                
+                xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
+                if os.path.exists(xyz):
+                    return xyz
+                x.download([link])
                 return xyz
-            x.download([link])
-            return xyz
+            except Exception as e:
+                print(f"Audio download error: {e}")
+                raise e
 
         def video_dl():
             ydl_optssx = {
@@ -347,14 +353,26 @@ class YouTubeAPI:
                 "retries": 5,
                 "fragment_retries": 5,
                 "socket_timeout": 30,
+                "extractor_retries": 3,
+                "skip_unavailable_fragments": True,
+                "http_headers": {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                }
             }
-            x = yt_dlp.YoutubeDL(ydl_optssx)
-            info = x.extract_info(link, False)
-            xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
-            if os.path.exists(xyz):
+            try:
+                x = yt_dlp.YoutubeDL(ydl_optssx)
+                info = x.extract_info(link, False)
+                if not info:
+                    raise Exception("Failed to extract video info")
+                
+                xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
+                if os.path.exists(xyz):
+                    return xyz
+                x.download([link])
                 return xyz
-            x.download([link])
-            return xyz
+            except Exception as e:
+                print(f"Video download error: {e}")
+                raise e
 
         def song_video_dl():
             formats = f"{format_id}+140"

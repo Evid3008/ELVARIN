@@ -163,7 +163,8 @@ async def play_commnd(
                         config.PLAYLIST_FETCH_LIMIT,
                         message.from_user.id,
                     )
-                except:
+                except Exception as e:
+                    print(f"Error fetching YouTube playlist: {e}")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "yt"
@@ -176,7 +177,8 @@ async def play_commnd(
             else:
                 try:
                     details, track_id = await YouTube.track(url)
-                except:
+                except Exception as e:
+                    print(f"Error fetching YouTube track: {e}")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
                 img = details["thumb"]
@@ -329,7 +331,8 @@ async def play_commnd(
             query = query.replace("-v", "")
         try:
             details, track_id = await YouTube.track(query)
-        except:
+        except Exception as e:
+            print(f"Error fetching track details: {e}")
             return await mystic.edit_text(_["play_3"])
         streamtype = "youtube"
     if str(playmode) == "Direct":
@@ -369,6 +372,7 @@ async def play_commnd(
             )
         except Exception as e:
             ex_type = type(e).__name__
+            print(f"Stream error: {ex_type} - {e}")
             err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
             return await mystic.edit_text(err)
         await mystic.delete()
