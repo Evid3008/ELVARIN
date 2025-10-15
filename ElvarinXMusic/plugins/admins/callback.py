@@ -441,4 +441,23 @@ async def markup_timer():
                 continue
 
 
+@app.on_callback_query(filters.regex("autoplay_mode") & ~BANNED_USERS)
+async def autoplay_mode_callback(client, CallbackQuery):
+    try:
+        await CallbackQuery.answer()
+        
+        # Send "Coming Soon" message
+        coming_soon_msg = await CallbackQuery.message.reply_text("🚀 **Coming Soon!**")
+        
+        # Wait for 2 seconds
+        await asyncio.sleep(2)
+        
+        # Auto delete the message
+        await coming_soon_msg.delete()
+        
+    except Exception as e:
+        print(f"Error in autoplay_mode_callback: {e}")
+        await CallbackQuery.answer("Error occurred", show_alert=True)
+
+
 asyncio.create_task(markup_timer())

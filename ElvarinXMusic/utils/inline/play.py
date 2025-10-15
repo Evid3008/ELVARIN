@@ -90,10 +90,13 @@ def stream_markup(_, videoid, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text=" 𝗢𝗪𝗡𝗘𝗥 ", url="https://t.me/iq4u8"
+                text="𝗢𝗪𝗡𝗘𝗥", url="https://t.me/iq4u8"
             ),
             InlineKeyboardButton(
-                text=" 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 ", url="https://t.me/iq4us"
+                text="⥯", callback_data="autoplay_mode"
+            ),
+            InlineKeyboardButton(
+                text="𝗦𝗨𝗣𝗣𝗢𝗥𝗧", url="https://t.me/iq4us"
             ),
         ],
         [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
@@ -243,12 +246,15 @@ def stream_markup2(_, chat_id):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-[
+        [
             InlineKeyboardButton(
-                text=" 𝗢𝗪𝗡𝗘𝗥 ", url="https://t.me/iq4u8"
+                text="𝗢𝗪𝗡𝗘𝗥", url="https://t.me/iq4u8"
             ),
             InlineKeyboardButton(
-                text=" 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 ", url="https://t.me/iq4us"
+                text="⥯", callback_data="autoplay_mode"
+            ),
+            InlineKeyboardButton(
+                text="𝗦𝗨𝗣𝗣𝗢𝗥𝗧", url="https://t.me/iq4us"
             ),
         ],
 
