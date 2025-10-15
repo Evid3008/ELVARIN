@@ -8,13 +8,13 @@ async def random_emoji_animation(message: Message):
     Show random animated emoji instead of typewriter effect
     Creates a simple emoji drop animation
     """
-    # List of random emojis for animation
+    # List of random emojis for animation - only large animated ones
     emojis = [
         "🌸", "🎵", "🎶", "🎤", "🎧", "🎼", "🎹", "🎸", "🎺", "🎻",
-        "🎪", "🎭", "🎨", "🎯", "🎲", "🎳", "🎴", "🎰", "🎱", "🎮",
-        "🎯", "🎲", "🎳", "🎴", "🎰", "🎱", "🎮", "🎯", "🎲", "🎳",
         "✨", "🌟", "💫", "⭐", "🌠", "🎆", "🎇", "💎", "🔮", "🎊",
-        "🎉", "🎈", "🎁", "🎀", "🎂", "🍰", "🧁", "🍭", "🍬", "🍫"
+        "🎉", "🎈", "🎁", "🎀", "🎂", "🍰", "🧁", "🍭", "🍬", "🍫",
+        "🎃", "🎄", "🎅", "🎊", "🎈", "🎁", "🎀", "🎂", "🍰", "🧁",
+        "🍭", "🍬", "🍫", "🍪", "🍩", "🍨", "🍧", "🍦", "🍰", "🧁"
     ]
     
     # Select a random emoji
