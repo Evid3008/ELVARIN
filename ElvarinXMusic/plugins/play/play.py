@@ -54,7 +54,7 @@ async def play_commnd(
     url,
     fplay,
 ):
-    mystic = await message.reply_text("🍭")
+    mystic = await message.reply_text("👀")
     mystic = await processing_with_typewriter(mystic)
     plist_id = None
     slider = None
