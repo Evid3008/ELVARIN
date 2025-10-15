@@ -30,7 +30,7 @@ async def play_live_stream(client, CallbackQuery, _):
         await CallbackQuery.answer()
     except:
         pass
-    mystic = await CallbackQuery.message.reply_text("✨ 𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈")
+    mystic = await CallbackQuery.message.reply_text("🍭")
     mystic = await processing_with_typewriter(mystic)
     try:
         details, track_id = await YouTube.track(vidid, True)
