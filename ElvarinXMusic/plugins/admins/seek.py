@@ -1,5 +1,7 @@
+import asyncio
 from pyrogram import filters
 from pyrogram.types import Message
+from pyrogram.errors import FloodWait
 
 from ElvarinXMusic import YouTube, app
 from ElvarinXMusic.core.call import Hotty

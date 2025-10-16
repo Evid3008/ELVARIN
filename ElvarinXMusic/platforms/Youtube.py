@@ -306,19 +306,15 @@ class YouTubeAPI:
         loop = asyncio.get_running_loop()
         def audio_dl():
             ydl_optssx = {
-                "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
+                "format": "bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "concurrent_fragment_downloads": 5,
-                "http_chunk_size": 20971520,
-                "retries": 5,
-                "fragment_retries": 5,
-                "socket_timeout": 30,
                 "extractor_retries": 3,
+                "fragment_retries": 5,
                 "skip_unavailable_fragments": True,
                 "http_headers": {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -341,19 +337,15 @@ class YouTubeAPI:
 
         def video_dl():
             ydl_optssx = {
-                "format": "(bestvideo[height<=?480][width<=?854][ext=mp4])+(bestaudio[ext=m4a])",
+                "format": "(bestvideo[height<=?1080][width<=?1920][ext=mp4]/bestvideo[height<=?720][width<=?1280][ext=mp4]/bestvideo[height<=?480][width<=?854][ext=mp4])+(bestaudio[ext=m4a]/bestaudio)",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
-                "concurrent_fragment_downloads": 5,
-                "http_chunk_size": 20971520,
-                "retries": 5,
-                "fragment_retries": 5,
-                "socket_timeout": 30,
                 "extractor_retries": 3,
+                "fragment_retries": 5,
                 "skip_unavailable_fragments": True,
                 "http_headers": {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
