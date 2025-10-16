@@ -678,28 +678,17 @@ async def vvplay_command(client, message: Message):
         if file_size_gb > 1.0:  # If file is larger than 1GB
             await mystic.edit_text(f"⚡ File size: {file_size_gb:.2f}GB - Ultra-fast compression...")
             
-            # Ultra-fast compression settings
-            if file_size_gb > 2.0:  # Very large files (>2GB)
-                crf = "30"  # High compression for speed
-                preset = "ultrafast"  # Fastest encoding
-                scale = "scale=854:480"  # Downscale to 480p for speed
-                threads = "8"  # Use more threads
-            elif file_size_gb > 1.5:  # Large files (1.5-2GB)
-                crf = "28"  # High compression
-                preset = "ultrafast"  # Fastest encoding
-                scale = "scale=1280:720"  # Downscale to 720p
-                threads = "6"  # Use more threads
-            else:  # Files just over 1GB (1-1.5GB)
-                crf = "26"  # Medium compression
-                preset = "ultrafast"  # Fastest encoding
-                scale = "scale=1280:720"  # Downscale to 720p
-                threads = "4"  # Use more threads
+            # Ultra-fast compression settings - always use fastest settings
+            crf = "30"  # High compression for speed
+            preset = "ultrafast"  # Fastest encoding
+            scale = "scale=854:480"  # Downscale to 480p for speed
+            threads = "0"  # Use all available threads
         else:
             # File is under 1GB, use ultra-fast settings
-            crf = "24"
+            crf = "28"
             preset = "ultrafast"
-            scale = "scale=1920:1080"
-            threads = "4"
+            scale = "scale=1280:720"  # Downscale to 720p for speed
+            threads = "0"
         
         # Download the file with high priority
         file_path = await Telegram.get_filepath(video=video_file)
@@ -718,34 +707,42 @@ async def vvplay_command(client, message: Message):
         if not output_path.endswith(".mp4"):
             output_path += ".mp4"
         
-        # Ultra-fast FFmpeg conversion command
+        # Ultra-fast FFmpeg conversion command with hardware acceleration
         cmd = [
-            "ffmpeg", "-i", file_path,
+            "ffmpeg", "-hwaccel", "auto",  # Hardware acceleration
+            "-i", file_path,
             "-c:v", "libx264",  # Use H.264 codec
-            "-preset", preset,   # Ultra-fast preset
-            "-crf", crf,        # Dynamic quality
+            "-preset", "ultrafast",  # Always use ultrafast for maximum speed
+            "-crf", "28",        # Fixed high compression for speed
             "-vf", scale,       # Dynamic scaling
             "-c:a", "aac",      # AAC audio
-            "-b:a", "256k",      # High audio bitrate for premium quality
+            "-b:a", "128k",     # Lower audio bitrate for speed
             "-movflags", "+faststart",  # Optimize for streaming
-            "-maxrate", "1.5M", # Lower max bitrate for speed
-            "-bufsize", "3M",   # Smaller buffer for speed
-            "-threads", threads,  # Use multiple threads
+            "-maxrate", "1M",   # Lower max bitrate for speed
+            "-bufsize", "2M",   # Smaller buffer for speed
+            "-threads", "0",    # Use all available threads
             "-tune", "fastdecode",  # Optimize for fast decoding
             "-profile:v", "baseline",  # Use baseline profile for speed
             "-level", "3.0",    # Lower level for speed
+            "-x264opts", "no-scenecut:no-cabac:no-deblock",  # Disable expensive features
             "-y",               # Overwrite output file
             output_path
         ]
         
-        # Run conversion with high priority
+        # Run conversion with high priority and parallel processing
         process = await asyncio.create_subprocess_exec(
             *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
+            stdout=asyncio.subprocess.DEVNULL,  # Discard stdout for speed
+            stderr=asyncio.subprocess.PIPE,
+            preexec_fn=os.setsid if os.name != 'nt' else None  # Set process group for better control
         )
         
-        stdout, stderr = await process.communicate()
+        # Wait for conversion with timeout
+        try:
+            stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=300)  # 5 minute timeout
+        except asyncio.TimeoutError:
+            process.kill()
+            return await mystic.edit_text("❌ Conversion timeout - file too large or complex")
         
         if process.returncode != 0:
             return await mystic.edit_text(f"❌ Conversion failed: {stderr.decode()}")
@@ -764,31 +761,38 @@ async def vvplay_command(client, message: Message):
             
             # Extreme compression settings for maximum speed
             extreme_cmd = [
-                "ffmpeg", "-i", output_path,
+                "ffmpeg", "-hwaccel", "auto",  # Hardware acceleration
+                "-i", output_path,
                 "-c:v", "libx264",
                 "-preset", "ultrafast",
                 "-crf", "32",  # Extreme compression
                 "-vf", "scale=640:360",  # Downscale to 360p
                 "-c:a", "aac",
-                "-b:a", "128k",  # Medium audio bitrate for extreme compression
-                "-maxrate", "800k",  # Very low max bitrate
-                "-bufsize", "1.6M",
-                "-threads", "8",
+                "-b:a", "96k",  # Lower audio bitrate for speed
+                "-maxrate", "600k",  # Very low max bitrate
+                "-bufsize", "1.2M",
+                "-threads", "0",  # Use all available threads
                 "-tune", "fastdecode",
                 "-profile:v", "baseline",
                 "-level", "3.0",
+                "-x264opts", "no-scenecut:no-cabac:no-deblock",  # Disable expensive features
                 "-y",
                 output_path
             ]
             
-            # Run extreme conversion
+            # Run extreme conversion with timeout
             extreme_process = await asyncio.create_subprocess_exec(
                 *extreme_cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+                stdout=asyncio.subprocess.DEVNULL,  # Discard stdout for speed
+                stderr=asyncio.subprocess.PIPE,
+                preexec_fn=os.setsid if os.name != 'nt' else None
             )
             
-            await extreme_process.communicate()
+            try:
+                await asyncio.wait_for(extreme_process.communicate(), timeout=180)  # 3 minute timeout
+            except asyncio.TimeoutError:
+                extreme_process.kill()
+                return await mystic.edit_text("❌ Extreme compression timeout")
             
             # Check final size again
             final_size_bytes = os.path.getsize(output_path)
