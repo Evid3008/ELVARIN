@@ -655,7 +655,7 @@ async def slider_queries(client, CallbackQuery, _):
     filters.command(["vvplay"]) & filters.group & ~BANNED_USERS
 )
 async def vvplay_command(client, message: Message):
-    """Alternative video play command for movie files that need format conversion"""
+    """High-speed alternative video play command for movie files that need format conversion"""
     language = await get_lang(message.chat.id)
     _ = get_string(language)
     if not message.reply_to_message:
@@ -664,39 +664,44 @@ async def vvplay_command(client, message: Message):
     if not message.reply_to_message.video and not message.reply_to_message.document:
         return await message.reply_text("❌ Please reply to a video file")
     
-    mystic = await message.reply_text("🔄 Processing movie file...")
+    mystic = await message.reply_text("⚡ High-speed processing movie file...")
     
     try:
         # Get the video file
         video_file = message.reply_to_message.video or message.reply_to_message.document
         
-        # Check file size and apply smart compression if needed
+        # Check file size and apply ultra-fast compression
         file_size_mb = video_file.file_size / (1024 * 1024)  # Convert to MB
         file_size_gb = file_size_mb / 1024  # Convert to GB
         
+        # Ultra-fast compression settings for maximum speed
         if file_size_gb > 1.0:  # If file is larger than 1GB
-            await mystic.edit_text(f"📁 File size: {file_size_gb:.2f}GB - Applying smart compression...")
+            await mystic.edit_text(f"⚡ File size: {file_size_gb:.2f}GB - Ultra-fast compression...")
             
-            # Smart compression settings based on file size
+            # Ultra-fast compression settings
             if file_size_gb > 2.0:  # Very large files (>2GB)
-                crf = "28"  # Higher compression
-                preset = "ultrafast"  # Faster encoding
-                scale = "scale=1280:720"  # Downscale to 720p
+                crf = "30"  # High compression for speed
+                preset = "ultrafast"  # Fastest encoding
+                scale = "scale=854:480"  # Downscale to 480p for speed
+                threads = "8"  # Use more threads
             elif file_size_gb > 1.5:  # Large files (1.5-2GB)
-                crf = "26"  # Medium compression
-                preset = "fast"  # Fast encoding
+                crf = "28"  # High compression
+                preset = "ultrafast"  # Fastest encoding
                 scale = "scale=1280:720"  # Downscale to 720p
+                threads = "6"  # Use more threads
             else:  # Files just over 1GB (1-1.5GB)
-                crf = "24"  # Light compression
-                preset = "medium"  # Balanced encoding
-                scale = "scale=1920:1080"  # Keep 1080p
+                crf = "26"  # Medium compression
+                preset = "ultrafast"  # Fastest encoding
+                scale = "scale=1280:720"  # Downscale to 720p
+                threads = "4"  # Use more threads
         else:
-            # File is under 1GB, use normal settings
-            crf = "23"
-            preset = "fast"
+            # File is under 1GB, use ultra-fast settings
+            crf = "24"
+            preset = "ultrafast"
             scale = "scale=1920:1080"
+            threads = "4"
         
-        # Download the file
+        # Download the file with high priority
         file_path = await Telegram.get_filepath(video=video_file)
         if not await Telegram.download(_, message, mystic, file_path):
             return await mystic.edit_text("❌ Failed to download file")
@@ -705,31 +710,35 @@ async def vvplay_command(client, message: Message):
         file_name = await Telegram.get_filename(video_file)
         dur = await Telegram.get_duration(video_file, file_path)
         
-        # Convert to VC compatible format
-        await mystic.edit_text("🔄 Converting to VC compatible format...")
+        # Convert to VC compatible format with ultra-fast settings
+        await mystic.edit_text("⚡ Ultra-fast conversion to VC compatible format...")
         
         # Create output path
         output_path = file_path.replace(".", "_vc.")
         if not output_path.endswith(".mp4"):
             output_path += ".mp4"
         
-        # FFmpeg conversion command with smart compression
+        # Ultra-fast FFmpeg conversion command
         cmd = [
             "ffmpeg", "-i", file_path,
             "-c:v", "libx264",  # Use H.264 codec
-            "-preset", preset,   # Dynamic preset based on file size
-            "-crf", crf,        # Dynamic quality based on file size
-            "-vf", scale,       # Dynamic scaling based on file size
+            "-preset", preset,   # Ultra-fast preset
+            "-crf", crf,        # Dynamic quality
+            "-vf", scale,       # Dynamic scaling
             "-c:a", "aac",      # AAC audio
-            "-b:a", "128k",     # Audio bitrate
+            "-b:a", "96k",      # Lower audio bitrate for speed
             "-movflags", "+faststart",  # Optimize for streaming
-            "-maxrate", "2M",   # Limit bitrate for size control
-            "-bufsize", "4M",   # Buffer size
+            "-maxrate", "1.5M", # Lower max bitrate for speed
+            "-bufsize", "3M",   # Smaller buffer for speed
+            "-threads", threads,  # Use multiple threads
+            "-tune", "fastdecode",  # Optimize for fast decoding
+            "-profile:v", "baseline",  # Use baseline profile for speed
+            "-level", "3.0",    # Lower level for speed
             "-y",               # Overwrite output file
             output_path
         ]
         
-        # Run conversion
+        # Run conversion with high priority
         process = await asyncio.create_subprocess_exec(
             *cmd,
             stdout=asyncio.subprocess.PIPE,
@@ -750,32 +759,36 @@ async def vvplay_command(client, message: Message):
         final_size_gb = final_size_bytes / (1024 * 1024 * 1024)
         
         if final_size_gb > 1.0:
-            # If still over 1GB, apply more aggressive compression
-            await mystic.edit_text(f"🔄 File still large ({final_size_gb:.2f}GB) - Applying aggressive compression...")
+            # If still over 1GB, apply extreme compression
+            await mystic.edit_text(f"⚡ File still large ({final_size_gb:.2f}GB) - Extreme compression...")
             
-            # More aggressive settings
-            aggressive_cmd = [
+            # Extreme compression settings for maximum speed
+            extreme_cmd = [
                 "ffmpeg", "-i", output_path,
                 "-c:v", "libx264",
                 "-preset", "ultrafast",
-                "-crf", "30",  # Higher compression
-                "-vf", "scale=854:480",  # Downscale to 480p
+                "-crf", "32",  # Extreme compression
+                "-vf", "scale=640:360",  # Downscale to 360p
                 "-c:a", "aac",
-                "-b:a", "96k",  # Lower audio bitrate
-                "-maxrate", "1M",  # Lower max bitrate
-                "-bufsize", "2M",
+                "-b:a", "64k",  # Very low audio bitrate
+                "-maxrate", "800k",  # Very low max bitrate
+                "-bufsize", "1.6M",
+                "-threads", "8",
+                "-tune", "fastdecode",
+                "-profile:v", "baseline",
+                "-level", "3.0",
                 "-y",
                 output_path
             ]
             
-            # Run aggressive conversion
-            aggressive_process = await asyncio.create_subprocess_exec(
-                *aggressive_cmd,
+            # Run extreme conversion
+            extreme_process = await asyncio.create_subprocess_exec(
+                *extreme_cmd,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE
             )
             
-            await aggressive_process.communicate()
+            await extreme_process.communicate()
             
             # Check final size again
             final_size_bytes = os.path.getsize(output_path)
@@ -784,7 +797,7 @@ async def vvplay_command(client, message: Message):
             if final_size_gb > 1.0:
                 return await mystic.edit_text(f"❌ Unable to compress file under 1GB (Final: {final_size_gb:.2f}GB)")
         
-        await mystic.edit_text(f"✅ Conversion complete! Final size: {final_size_gb:.2f}GB")
+        await mystic.edit_text(f"⚡ Ultra-fast conversion complete! Final size: {final_size_gb:.2f}GB")
         
         # Prepare details for streaming
         details = {
@@ -818,24 +831,8 @@ async def vvplay_command(client, message: Message):
             os.remove(file_path)
         except:
             pass
-            
+        
         return await mystic.delete()
         
     except Exception as e:
         return await mystic.edit_text(f"❌ Error: {str(e)}")
-        try:
-            await CallbackQuery.answer(_["playcb_2"])
-        except:
-            pass
-        title, duration_min, thumbnail, vidid = await YouTube.slider(query, query_type)
-        buttons = slider_markup(_, vidid, user_id, query, query_type, cplay, fplay)
-        med = InputMediaPhoto(
-            media=thumbnail,
-            caption=_["play_10"].format(
-                title.title(),
-                duration_min,
-            ),
-        )
-        return await CallbackQuery.edit_message_media(
-            media=med, reply_markup=InlineKeyboardMarkup(buttons)
-)
