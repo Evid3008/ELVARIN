@@ -1,6 +1,6 @@
 """
-Shivali Learning System
-Observes and learns from Shivali's chat patterns to mimic her responses
+Chat Learning System
+Observes and learns from target user's chat patterns to mimic their responses
 """
 
 import json
@@ -16,18 +16,18 @@ import config
 from ElvarinXMusic import LOGGER
 
 
-class ShivaliLearningSystem:
-    """Learning system to observe and mimic Shivali's chat patterns"""
+class ChatLearningSystem:
+    """Learning system to observe and mimic target user's chat patterns"""
     
     def __init__(self):
-        self.target_username = config.SHIVALI_USERNAME
-        self.chat_file = config.SHIVALI_CHAT_FILE
-        self.learning_enabled = config.SHIVALI_LEARNING_ENABLED
-        self.min_chats_to_learn = config.SHIVALI_LEARNING_RATE
-        self.similarity_threshold = config.SHIVALI_RESPONSE_SIMILARITY
+        self.target_username = config.TARGET_USERNAME
+        self.chat_file = config.LEARNING_CHAT_FILE
+        self.learning_enabled = config.LEARNING_ENABLED
+        self.min_chats_to_learn = config.LEARNING_RATE
+        self.similarity_threshold = config.RESPONSE_SIMILARITY
         
         # Chat storage
-        self.shivali_chats: List[Dict] = []
+        self.user_chats: List[Dict] = []
         self.response_patterns: Dict[str, List[str]] = defaultdict(list)
         self.chat_contexts: Dict[str, List[str]] = defaultdict(list)
         
@@ -45,15 +45,15 @@ class ShivaliLearningSystem:
             if os.path.exists(self.chat_file):
                 with open(self.chat_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                    self.shivali_chats = data.get('chats', [])
+                    self.user_chats = data.get('chats', [])
                     self.response_patterns = data.get('patterns', {})
                     self.chat_contexts = data.get('contexts', {})
                     self.total_chats_observed = data.get('total_chats', 0)
                     self.total_responses_learned = data.get('total_responses', 0)
-                    LOGGER.info(f"Loaded {len(self.shivali_chats)} Shivali chats from file")
+                    LOGGER.info(f"Loaded {len(self.user_chats)} user chats from file")
         except Exception as e:
             LOGGER.error(f"Error loading chat data: {e}")
-            self.shivali_chats = []
+            self.user_chats = []
             self.response_patterns = {}
             self.chat_contexts = {}
     
@@ -61,7 +61,7 @@ class ShivaliLearningSystem:
         """Save chat data to file"""
         try:
             data = {
-                'chats': self.shivali_chats[-1000:],  # Keep last 1000 chats
+                'chats': self.user_chats[-1000:],  # Keep last 1000 chats
                 'patterns': dict(self.response_patterns),
                 'contexts': dict(self.chat_contexts),
                 'total_chats': self.total_chats_observed,
@@ -72,12 +72,12 @@ class ShivaliLearningSystem:
             with open(self.chat_file, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
                 
-            LOGGER.info(f"Saved {len(self.shivali_chats)} Shivali chats to file")
+            LOGGER.info(f"Saved {len(self.user_chats)} user chats to file")
         except Exception as e:
             LOGGER.error(f"Error saving chat data: {e}")
     
-    def is_shivali_message(self, message_text: str, username: str) -> bool:
-        """Check if message is from Shivali"""
+    def is_target_message(self, message_text: str, username: str) -> bool:
+        """Check if message is from target user"""
         if not username or not message_text:
             return False
         
@@ -90,8 +90,8 @@ class ShivaliLearningSystem:
         
         return username_match and len(message_text.strip()) > 0
     
-    def record_shivali_chat(self, message_text: str, chat_id: int, message_id: int, timestamp: float):
-        """Record Shivali's chat for learning"""
+    def record_user_chat(self, message_text: str, chat_id: int, message_id: int, timestamp: float):
+        """Record target user's chat for learning"""
         if not self.learning_enabled:
             return
         
@@ -104,21 +104,21 @@ class ShivaliLearningSystem:
                 'date': datetime.fromtimestamp(timestamp).isoformat()
             }
             
-            self.shivali_chats.append(chat_data)
+            self.user_chats.append(chat_data)
             self.total_chats_observed += 1
             
             # Learn from the message
             self.learn_from_message(message_text)
             
             # Save periodically
-            if len(self.shivali_chats) % 10 == 0:
+            if len(self.user_chats) % 10 == 0:
                 self.save_chat_data()
                 
         except Exception as e:
-            LOGGER.error(f"Error recording Shivali chat: {e}")
+            LOGGER.error(f"Error recording user chat: {e}")
     
     def learn_from_message(self, message_text: str):
-        """Learn patterns from Shivali's message"""
+        """Learn patterns from target user's message"""
         try:
             # Extract patterns
             words = message_text.lower().split()
@@ -140,7 +140,7 @@ class ShivaliLearningSystem:
             LOGGER.error(f"Error learning from message: {e}")
     
     def find_similar_context(self, user_message: str) -> Optional[str]:
-        """Find similar context from Shivali's chats"""
+        """Find similar context from target user's chats"""
         try:
             user_words = user_message.lower().split()
             best_match = None
@@ -166,9 +166,9 @@ class ShivaliLearningSystem:
             LOGGER.error(f"Error finding similar context: {e}")
             return None
     
-    def generate_shivali_response(self, user_message: str) -> Optional[str]:
-        """Generate response mimicking Shivali's style"""
-        if not self.learning_enabled or len(self.shivali_chats) < self.min_chats_to_learn:
+    def generate_target_response(self, user_message: str) -> Optional[str]:
+        """Generate response mimicking target user's style"""
+        if not self.learning_enabled or len(self.user_chats) < self.min_chats_to_learn:
             return None
         
         try:
@@ -215,39 +215,39 @@ class ShivaliLearningSystem:
             'patterns_learned': len(self.response_patterns),
             'contexts_learned': len(self.chat_contexts),
             'min_chats_required': self.min_chats_to_learn,
-            'can_generate_responses': len(self.shivali_chats) >= self.min_chats_to_learn,
-            'last_chat_count': len(self.shivali_chats)
+            'can_generate_responses': len(self.user_chats) >= self.min_chats_to_learn,
+            'last_chat_count': len(self.user_chats)
         }
     
     def is_ready_to_learn(self) -> bool:
         """Check if system has enough data to learn"""
-        return len(self.shivali_chats) >= self.min_chats_to_learn
+        return len(self.user_chats) >= self.min_chats_to_learn
     
     def get_recent_chats(self, count: int = 5) -> List[Dict]:
-        """Get recent chats from Shivali"""
-        return self.shivali_chats[-count:] if self.shivali_chats else []
+        """Get recent chats from target user"""
+        return self.user_chats[-count:] if self.user_chats else []
 
 
 # Global learning system instance
-shivali_learning = ShivaliLearningSystem()
+chat_learning = ChatLearningSystem()
 
 
-def record_shivali_message(message_text: str, username: str, chat_id: int, message_id: int):
-    """Record message if it's from Shivali"""
-    if shivali_learning.is_shivali_message(message_text, username):
-        shivali_learning.record_shivali_chat(message_text, chat_id, message_id, time.time())
+def record_target_message(message_text: str, username: str, chat_id: int, message_id: int):
+    """Record message if it's from target user"""
+    if chat_learning.is_target_message(message_text, username):
+        chat_learning.record_user_chat(message_text, chat_id, message_id, time.time())
 
 
-def get_shivali_response(user_message: str) -> Optional[str]:
-    """Get Shivali-style response"""
-    return shivali_learning.generate_shivali_response(user_message)
+def get_target_response(user_message: str) -> Optional[str]:
+    """Get target user-style response"""
+    return chat_learning.generate_target_response(user_message)
 
 
 def get_learning_stats() -> Dict:
     """Get learning system statistics"""
-    return shivali_learning.get_learning_stats()
+    return chat_learning.get_learning_stats()
 
 
 def is_learning_ready() -> bool:
     """Check if learning system is ready"""
-    return shivali_learning.is_ready_to_learn()
+    return chat_learning.is_ready_to_learn()

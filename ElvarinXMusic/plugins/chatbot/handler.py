@@ -10,9 +10,9 @@ from pyrogram.types import Message
 import config
 from ElvarinXMusic import app, LOGGER
 from ElvarinXMusic.utils.female_chatbot import process_chatbot_message
-from ElvarinXMusic.utils.shivali_learning import (
-    record_shivali_message, 
-    get_shivali_response, 
+from ElvarinXMusic.utils.chat_learning import (
+    record_target_message, 
+    get_target_response, 
     get_learning_stats,
     is_learning_ready
 )
@@ -22,9 +22,9 @@ from ElvarinXMusic.utils.shivali_learning import (
 async def handle_chatbot_message(client: Client, message: Message):
     """Handle messages for female chatbot"""
     
-    # Record Shivali's messages for learning
+    # Record target user's messages for learning
     username = message.from_user.username or ""
-    record_shivali_message(
+    record_target_message(
         message.text, 
         username, 
         message.chat.id, 
@@ -47,14 +47,14 @@ async def handle_chatbot_message(client: Client, message: Message):
         user_id = message.from_user.id
         user_name = message.from_user.first_name or "User"
         
-        # Try to get Shivali-style response first
-        shivali_response = get_shivali_response(message.text)
+        # Try to get target user-style response first
+        target_response = get_target_response(message.text)
         
-        if shivali_response and is_learning_ready():
-            # Use Shivali's style response
+        if target_response and is_learning_ready():
+            # Use target user's style response
             await message.reply_text(
-                f"@{message.from_user.username} {shivali_response}" if message.from_user.username 
-                else f"{user_name} {shivali_response}",
+                f"@{message.from_user.username} {target_response}" if message.from_user.username 
+                else f"{user_name} {target_response}",
                 reply_to_message_id=message.id
             )
             return
@@ -144,17 +144,17 @@ async def chatbot_stats_command(client: Client, message: Message):
     await message.reply_text(stats_text)
 
 
-@app.on_message(filters.command(["shivali_stats"]) & filters.group)
-async def shivali_stats_command(client: Client, message: Message):
-    """Show Shivali learning statistics"""
+@app.on_message(filters.command(["learning_stats"]) & filters.group)
+async def learning_stats_command(client: Client, message: Message):
+    """Show learning system statistics"""
     
-    if not config.SHIVALI_LEARNING_ENABLED:
-        return await message.reply_text("❌ Shivali learning system is disabled.")
+    if not config.LEARNING_ENABLED:
+        return await message.reply_text("❌ Learning system is disabled.")
     
     stats = get_learning_stats()
     
     stats_text = f"""
-📊 **Shivali Learning System Stats**
+📊 **Chat Learning System Stats**
 
 👤 **Target User:** @{stats['target_username']}
 📚 **Learning Status:** {'✅ Ready' if stats['can_generate_responses'] else '⏳ Learning...'}
