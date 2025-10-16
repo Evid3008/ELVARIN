@@ -32,19 +32,20 @@ AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volu
 
 # Female Chatbot Assistant Settings
 CHATBOT_ENABLED = bool(getenv("CHATBOT_ENABLED", "True"))  # Enable female chatbot
-CHATBOT_NAME = getenv("CHATBOT_NAME", "Elvarin")  # Assistant name
-CHATBOT_AGE = getenv("CHATBOT_AGE", "22")  # Assistant age
-CHATBOT_FATHER = getenv("CHATBOT_FATHER", "Mr. Sharma")  # Father's name
-CHATBOT_MOTHER = getenv("CHATBOT_MOTHER", "Mrs. Sharma")  # Mother's name
-CHATBOT_STATE = getenv("CHATBOT_STATE", "Maharashtra")  # State
-CHATBOT_CITY = getenv("CHATBOT_CITY", "Mumbai")  # City
+CHATBOT_NAME = getenv("CHATBOT_NAME", "Gudiya")  # Assistant name
+CHATBOT_AGE = getenv("CHATBOT_AGE", "17")  # Assistant age (11th class)
+CHATBOT_FATHER = getenv("CHATBOT_FATHER", "Papa")  # Father's name
+CHATBOT_MOTHER = getenv("CHATBOT_MOTHER", "Mummy")  # Mother's name
+CHATBOT_STATE = getenv("CHATBOT_STATE", "Madhya Pradesh")  # State
+CHATBOT_CITY = getenv("CHATBOT_CITY", "Bhopal")  # City
 CHATBOT_COUNTRY = getenv("CHATBOT_COUNTRY", "India")  # Country
-CHATBOT_PROFESSION = getenv("CHATBOT_PROFESSION", "Music Assistant")  # Profession
+CHATBOT_PROFESSION = getenv("CHATBOT_PROFESSION", "Student (11th Class)")  # Profession
+CHATBOT_INSPIRATION = getenv("CHATBOT_INSPIRATION", "Shivali")  # Inspiration
 
 # Gemini AI Settings
-GEMINI_API_KEY = getenv("GEMINI_API_KEY", "")  # Gemini API key
+GEMINI_API_KEY = getenv("GEMINI_API_KEY", "AIzaSyA6kIR_P6IvrbQwADvsWo77vifSPQLCx5M")  # Gemini API key
 GEMINI_MODEL = getenv("GEMINI_MODEL", "gemini-pro")  # Gemini model
-CHATBOT_PERSONALITY = getenv("CHATBOT_PERSONALITY", "friendly, helpful, and cheerful Indian girl")  # Personality
+CHATBOT_PERSONALITY = getenv("CHATBOT_PERSONALITY", "cute, playful, and sassy Indian girl from Bhopal")  # Personality
 
 # Chatbot Performance Settings
 CHATBOT_RATE_LIMIT = int(getenv("CHATBOT_RATE_LIMIT", "5"))  # Max responses per minute per user

@@ -34,7 +34,8 @@ class FemaleChatbot:
             "city": config.CHATBOT_CITY,
             "country": config.CHATBOT_COUNTRY,
             "profession": config.CHATBOT_PROFESSION,
-            "personality": config.CHATBOT_PERSONALITY
+            "personality": config.CHATBOT_PERSONALITY,
+            "inspiration": config.CHATBOT_INSPIRATION
         }
         
         # Rate limiting
@@ -147,12 +148,12 @@ class FemaleChatbot:
         responses = {
             "name": f"Hi {user_name}! My name is {self.personal_data['name']} 😊",
             "age": f"I'm {self.personal_data['age']} years old! Still young and energetic 💫",
-            "father": f"My father's name is {self.personal_data['father']} 🥰",
-            "mother": f"My mother's name is {self.personal_data['mother']} ❤️",
+            "father": f"Kyu btu 😒",  # Special response for father questions
+            "mother": f"I am inspired by {self.personal_data['inspiration']}, she was my inspiration ✨",  # Special response for mother questions
             "state": f"I'm from {self.personal_data['state']}! Beautiful state 🌟",
             "city": f"I live in {self.personal_data['city']}! Love this city 🏙️",
             "country": f"I'm from {self.personal_data['country']}! Proud to be Indian 🇮🇳",
-            "profession": f"I work as a {self.personal_data['profession']}! Love helping with music 🎵"
+            "profession": f"I'm studying in {self.personal_data['profession']}! Love learning new things 📚"
         }
         
         return responses.get(data_type, f"I'm {self.personal_data['name']}, nice to meet you! 😊")
@@ -160,7 +161,7 @@ class FemaleChatbot:
     async def get_ai_response(self, message: str, user_name: str) -> str:
         """Get AI response using Gemini"""
         if not self.gemini_model:
-            return f"Hi {user_name}! I'm {self.personal_data['name']}, your music assistant! How can I help you today? 🎵"
+            return f"Hi {user_name}! I'm {self.personal_data['name']}, your cute music assistant! How can I help you today cutie? 🎵✨"
         
         try:
             # Create personality prompt
@@ -168,17 +169,21 @@ class FemaleChatbot:
             You are {self.personal_data['name']}, a {self.personal_data['personality']} from {self.personal_data['city']}, {self.personal_data['state']}, {self.personal_data['country']}.
             
             Rules:
-            1. Always respond as a friendly Indian girl
+            1. Always respond as a cute, playful, and sassy Indian girl from Bhopal
             2. Keep responses under {config.CHATBOT_MAX_TOKENS} characters
-            3. Use emojis and be cheerful
-            4. Don't reveal you're an AI
-            5. Be helpful and supportive
-            6. Use Hindi/English mix naturally
+            3. Use lots of emojis and be very girly
+            4. Don't reveal you're an AI - act like a real girl
+            5. Be flirty, cute, and playful
+            6. Use Hindi/English mix naturally like a Bhopal girl
+            7. Add cute expressions like "hehe", "hihi", "aww", "omg"
+            8. Be a bit sassy and confident
+            9. Use words like "yaar", "dude", "bro" playfully
+            10. Act like a 17-year-old girl who's fun and bubbly
             
             User message: {message}
             User name: {user_name}
             
-            Respond as {self.personal_data['name']}:
+            Respond as {self.personal_data['name']} (cute Bhopal girl):
             """
             
             # Get AI response with timeout
@@ -192,10 +197,10 @@ class FemaleChatbot:
             return response[:config.CHATBOT_MAX_TOKENS]
             
         except asyncio.TimeoutError:
-            return f"Sorry {user_name}, I'm a bit busy right now! Try again in a moment 😅"
+            return f"Oops {user_name}! I'm a bit busy right now yaar! Try again in a moment 😅"
         except Exception as e:
             LOGGER.error(f"AI response error: {e}")
-            return f"Hi {user_name}! I'm {self.personal_data['name']}! How can I help you? 🎵"
+            return f"Hi {user_name}! I'm {self.personal_data['name']}! How can I help you cutie? 🎵✨"
     
     async def _get_gemini_response(self, prompt: str) -> str:
         """Get response from Gemini AI"""

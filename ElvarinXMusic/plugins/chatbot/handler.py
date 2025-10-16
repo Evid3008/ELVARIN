@@ -64,13 +64,14 @@ async def chatbot_info_command(client: Client, message: Message):
     stats = get_chatbot_stats()
     
     info_text = f"""
-🤖 **Female Chatbot Assistant**
+🤖 **Female Chatbot Assistant - Gudiya**
 
 👤 **Name:** {stats['personal_data']['name']}
-🎂 **Age:** {stats['personal_data']['age']} years
-👨‍👩‍👧‍👦 **Family:** {stats['personal_data']['father']} & {stats['personal_data']['mother']}
+🎂 **Age:** {stats['personal_data']['age']} years (11th Class)
+👨‍👩‍👧‍👦 **Family:** Special responses for family questions 😊
 🏠 **Location:** {stats['personal_data']['city']}, {stats['personal_data']['state']}, {stats['personal_data']['country']}
 💼 **Profession:** {stats['personal_data']['profession']}
+✨ **Inspiration:** {stats['personal_data']['inspiration']}
 
 📊 **Stats:**
 • Active Users: {stats['active_users']}
@@ -78,8 +79,9 @@ async def chatbot_info_command(client: Client, message: Message):
 
 💬 **How to use:**
 • Just mention me or ask personal questions
-• I'll respond as a friendly Indian girl
+• I'll respond as a cute Bhopal girl
 • Rate limit: {config.CHATBOT_RATE_LIMIT} messages per minute
+• Special responses for family questions! 😉
     """
     
     await message.reply_text(info_text)
