@@ -131,13 +131,18 @@ async def stream(
                     print(f"Download error in playlist: {e}")
                     await mystic.edit_text(_["play_3"])
                     return
-                await Hotty.join_call(
-                    chat_id,
-                    original_chat_id,
-                    file_path,
-                    video=status,
-                    image=thumbnail,
-                )
+                try:
+                    await Hotty.join_call(
+                        chat_id,
+                        original_chat_id,
+                        file_path,
+                        video=status,
+                        image=thumbnail,
+                    )
+                except Exception as e:
+                    print(f"Assistant join call error: {e}")
+                    await mystic.edit_text(f"❌ Assistant failed to join VC: {str(e)}")
+                    return
                 await put_queue(
                     chat_id,
                     original_chat_id,
@@ -226,13 +231,18 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await Hotty.join_call(
-                chat_id,
-                original_chat_id,
-                file_path,
-                video=status,
-                image=thumbnail,
-            )
+            try:
+                await Hotty.join_call(
+                    chat_id,
+                    original_chat_id,
+                    file_path,
+                    video=status,
+                    image=thumbnail,
+                )
+            except Exception as e:
+                print(f"Assistant join call error in youtube stream: {e}")
+                await mystic.edit_text(f"❌ Assistant failed to join VC: {str(e)}")
+                return
             await put_queue(
                 chat_id,
                 original_chat_id,

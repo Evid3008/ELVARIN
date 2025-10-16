@@ -441,10 +441,26 @@ async def markup_timer():
                 continue
 
 
+# Flood control for autoplay button
+autoplay_cooldown = {}
+
 @app.on_callback_query(filters.regex("autoplay_mode") & ~BANNED_USERS)
 async def autoplay_mode_callback(client, CallbackQuery):
+    user_id = CallbackQuery.from_user.id
+    current_time = asyncio.get_event_loop().time()
+    
+    # Check if user is in cooldown
+    if user_id in autoplay_cooldown:
+        time_left = autoplay_cooldown[user_id] - current_time
+        if time_left > 0:
+            await CallbackQuery.answer(f"⏰ Wait {int(time_left)} seconds for auto play", show_alert=True)
+            return
+    
     try:
         await CallbackQuery.answer()
+        
+        # Set cooldown for 30 seconds
+        autoplay_cooldown[user_id] = current_time + 30
         
         # Send "Coming Soon" message
         coming_soon_msg = await CallbackQuery.message.reply_text("🚀 **Coming Soon!**")
