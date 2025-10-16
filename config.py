@@ -30,6 +30,25 @@ MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
 # Enhanced audio filters for premium sound quality
 AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volume=1.3,highpass=f=20,lowpass=f=22000,compand=.3|.3:1|1:-90/-60|-60/-40|-40/-30|-20/-20:6:0:-90:0.2")
 
+# Flood Protection Settings (Critical for Bot Stability)
+FLOOD_LIMIT = int(getenv("FLOOD_LIMIT", "10"))  # Max commands per minute per user
+FLOOD_WINDOW = int(getenv("FLOOD_WINDOW", "60"))  # Time window in seconds
+FLOOD_COOLDOWN = int(getenv("FLOOD_COOLDOWN", "30"))  # Cooldown period in seconds
+FLOOD_AUTO_BAN = bool(getenv("FLOOD_AUTO_BAN", "True"))  # Auto-ban flooders
+FLOOD_BAN_DURATION = int(getenv("FLOOD_BAN_DURATION", "3600"))  # Ban duration in seconds (1 hour)
+
+# Rate Limiting Settings
+RATE_LIMIT_PLAY = int(getenv("RATE_LIMIT_PLAY", "3"))  # Max play commands per minute
+RATE_LIMIT_SEARCH = int(getenv("RATE_LIMIT_SEARCH", "5"))  # Max search commands per minute
+RATE_LIMIT_DOWNLOAD = int(getenv("RATE_LIMIT_DOWNLOAD", "2"))  # Max download commands per minute
+RATE_LIMIT_ADMIN = int(getenv("RATE_LIMIT_ADMIN", "10"))  # Max admin commands per minute
+
+# Command Cooldowns (in seconds)
+COOLDOWN_PLAY = int(getenv("COOLDOWN_PLAY", "5"))  # Play command cooldown
+COOLDOWN_SEARCH = int(getenv("COOLDOWN_SEARCH", "3"))  # Search command cooldown
+COOLDOWN_DOWNLOAD = int(getenv("COOLDOWN_DOWNLOAD", "10"))  # Download command cooldown
+COOLDOWN_VVPLAY = int(getenv("COOLDOWN_VVPLAY", "15"))  # VVPlay command cooldown (longer due to processing)
+
 # Stability Settings
 MAX_RETRIES = int(getenv("MAX_RETRIES", "3"))
 RETRY_DELAY = int(getenv("RETRY_DELAY", "5"))
