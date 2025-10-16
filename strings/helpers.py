@@ -67,6 +67,7 @@ HELP_6 = """
 
 <b>🎵 𝐏𝐋𝐀𝐘 :</b>
 /play or /vplay : Start streaming
+/vvplay : Convert & play movie files (reply to video)
 /playforce or /vplayforce : Force play
 
 <b>📺 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 :</b>

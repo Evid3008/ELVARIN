@@ -24,6 +24,9 @@ from ElvarinXMusic.utils.typewriter import processing_with_typewriter, get_rando
 from ElvarinXMusic.utils.logger import play_logs
 from ElvarinXMusic.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
+import os
+import subprocess
+import asyncio
 
 
 @app.on_message(
@@ -644,11 +647,178 @@ async def slider_queries(client, CallbackQuery, _):
         return await CallbackQuery.edit_message_media(
             media=med, reply_markup=InlineKeyboardMarkup(buttons)
         )
-    if what == "B":
-        if rtype == 0:
-            query_type = 9
+
+
+@app.on_message(
+    filters.command(["vvplay"]) & filters.group & ~BANNED_USERS
+)
+async def vvplay_command(client, message: Message):
+    """Alternative video play command for movie files that need format conversion"""
+    if not message.reply_to_message:
+        return await message.reply_text("❌ Please reply to a video/movie file with /vvplay")
+    
+    if not message.reply_to_message.video and not message.reply_to_message.document:
+        return await message.reply_text("❌ Please reply to a video file")
+    
+    mystic = await message.reply_text("🔄 Processing movie file...")
+    
+    try:
+        # Get the video file
+        video_file = message.reply_to_message.video or message.reply_to_message.document
+        
+        # Check file size and apply smart compression if needed
+        file_size_mb = video_file.file_size / (1024 * 1024)  # Convert to MB
+        file_size_gb = file_size_mb / 1024  # Convert to GB
+        
+        if file_size_gb > 1.0:  # If file is larger than 1GB
+            await mystic.edit_text(f"📁 File size: {file_size_gb:.2f}GB - Applying smart compression...")
+            
+            # Smart compression settings based on file size
+            if file_size_gb > 2.0:  # Very large files (>2GB)
+                crf = "28"  # Higher compression
+                preset = "ultrafast"  # Faster encoding
+                scale = "scale=1280:720"  # Downscale to 720p
+            elif file_size_gb > 1.5:  # Large files (1.5-2GB)
+                crf = "26"  # Medium compression
+                preset = "fast"  # Fast encoding
+                scale = "scale=1280:720"  # Downscale to 720p
+            else:  # Files just over 1GB (1-1.5GB)
+                crf = "24"  # Light compression
+                preset = "medium"  # Balanced encoding
+                scale = "scale=1920:1080"  # Keep 1080p
         else:
-            query_type = int(rtype - 1)
+            # File is under 1GB, use normal settings
+            crf = "23"
+            preset = "fast"
+            scale = "scale=1920:1080"
+        
+        # Download the file
+        file_path = await Telegram.get_filepath(video=video_file)
+        if not await Telegram.download(_, message, mystic, file_path):
+            return await mystic.edit_text("❌ Failed to download file")
+        
+        # Get file info
+        file_name = await Telegram.get_filename(video_file)
+        dur = await Telegram.get_duration(video_file, file_path)
+        
+        # Convert to VC compatible format
+        await mystic.edit_text("🔄 Converting to VC compatible format...")
+        
+        # Create output path
+        output_path = file_path.replace(".", "_vc.")
+        if not output_path.endswith(".mp4"):
+            output_path += ".mp4"
+        
+        # FFmpeg conversion command with smart compression
+        cmd = [
+            "ffmpeg", "-i", file_path,
+            "-c:v", "libx264",  # Use H.264 codec
+            "-preset", preset,   # Dynamic preset based on file size
+            "-crf", crf,        # Dynamic quality based on file size
+            "-vf", scale,       # Dynamic scaling based on file size
+            "-c:a", "aac",      # AAC audio
+            "-b:a", "128k",     # Audio bitrate
+            "-movflags", "+faststart",  # Optimize for streaming
+            "-maxrate", "2M",   # Limit bitrate for size control
+            "-bufsize", "4M",   # Buffer size
+            "-y",               # Overwrite output file
+            output_path
+        ]
+        
+        # Run conversion
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        
+        stdout, stderr = await process.communicate()
+        
+        if process.returncode != 0:
+            return await mystic.edit_text(f"❌ Conversion failed: {stderr.decode()}")
+        
+        # Check if output file exists
+        if not os.path.exists(output_path):
+            return await mystic.edit_text("❌ Conversion failed - output file not found")
+        
+        # Check final file size
+        final_size_bytes = os.path.getsize(output_path)
+        final_size_gb = final_size_bytes / (1024 * 1024 * 1024)
+        
+        if final_size_gb > 1.0:
+            # If still over 1GB, apply more aggressive compression
+            await mystic.edit_text(f"🔄 File still large ({final_size_gb:.2f}GB) - Applying aggressive compression...")
+            
+            # More aggressive settings
+            aggressive_cmd = [
+                "ffmpeg", "-i", output_path,
+                "-c:v", "libx264",
+                "-preset", "ultrafast",
+                "-crf", "30",  # Higher compression
+                "-vf", "scale=854:480",  # Downscale to 480p
+                "-c:a", "aac",
+                "-b:a", "96k",  # Lower audio bitrate
+                "-maxrate", "1M",  # Lower max bitrate
+                "-bufsize", "2M",
+                "-y",
+                output_path
+            ]
+            
+            # Run aggressive conversion
+            aggressive_process = await asyncio.create_subprocess_exec(
+                *aggressive_cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            
+            await aggressive_process.communicate()
+            
+            # Check final size again
+            final_size_bytes = os.path.getsize(output_path)
+            final_size_gb = final_size_bytes / (1024 * 1024 * 1024)
+            
+            if final_size_gb > 1.0:
+                return await mystic.edit_text(f"❌ Unable to compress file under 1GB (Final: {final_size_gb:.2f}GB)")
+        
+        await mystic.edit_text(f"✅ Conversion complete! Final size: {final_size_gb:.2f}GB")
+        
+        # Prepare details for streaming
+        details = {
+            "title": f"{file_name} (VC Compatible)",
+            "link": await Telegram.get_link(message),
+            "path": output_path,
+            "dur": dur,
+        }
+        
+        # Stream the converted file
+        try:
+            await stream(
+                _,
+                mystic,
+                message.from_user.id,
+                details,
+                message.chat.id,
+                message.from_user.first_name,
+                message.chat.id,
+                video=True,
+                streamtype="telegram",
+                forceplay=False,
+            )
+        except Exception as e:
+            ex_type = type(e).__name__
+            err = e if ex_type == "AssistantErr" else f"Stream error: {ex_type}"
+            return await mystic.edit_text(err)
+        
+        # Clean up original file
+        try:
+            os.remove(file_path)
+        except:
+            pass
+            
+        return await mystic.delete()
+        
+    except Exception as e:
+        return await mystic.edit_text(f"❌ Error: {str(e)}")
         try:
             await CallbackQuery.answer(_["playcb_2"])
         except:
