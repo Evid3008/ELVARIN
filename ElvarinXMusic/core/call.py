@@ -1,5 +1,6 @@
 import asyncio
 import os
+import time
 from datetime import datetime, timedelta
 from typing import Union
 
@@ -104,18 +105,109 @@ class Call(PyTgCalls):
             self.userbot5,
             cache_duration=50,
         )
+        
+        # Auto-recovery system
+        self.assistant_health = {}  # Track assistant health
+        self.recovery_attempts = {}  # Track recovery attempts
+        self.last_activity = {}  # Track last activity time
+
+    async def check_assistant_health(self, chat_id: int):
+        """Check if assistant is responsive and healthy"""
+        try:
+            assistant = await group_assistant(self, chat_id)
+            # Try a simple operation to check if assistant is responsive
+            await assistant.get_call(chat_id)
+            return True
+        except Exception as e:
+            LOGGER.error(f"Assistant health check failed for {chat_id}: {e}")
+            return False
+
+    async def auto_recover_assistant(self, chat_id: int):
+        """Automatically recover stuck assistant"""
+        try:
+            LOGGER.info(f"Starting auto-recovery for chat {chat_id}")
+            
+            # Force stop current stream
+            await self.force_stop_stream(chat_id)
+            
+            # Wait a moment
+            await asyncio.sleep(2)
+            
+            # Clear assistant from database
+            from ElvarinXMusic.utils.database import assistantdict, assdb
+            if chat_id in assistantdict:
+                del assistantdict[chat_id]
+            
+            # Remove from database
+            await assdb.delete_one({"chat_id": chat_id})
+            
+            # Reset recovery attempts
+            self.recovery_attempts[chat_id] = 0
+            
+            LOGGER.info(f"Auto-recovery completed for chat {chat_id}")
+            return True
+            
+        except Exception as e:
+            LOGGER.error(f"Auto-recovery failed for chat {chat_id}: {e}")
+            return False
+
+    async def handle_assistant_error(self, chat_id: int, error: Exception):
+        """Handle assistant errors and trigger recovery if needed"""
+        current_time = time.time()
+        
+        # Initialize tracking if not exists
+        if chat_id not in self.assistant_health:
+            self.assistant_health[chat_id] = {"errors": 0, "last_error": 0}
+            self.recovery_attempts[chat_id] = 0
+        
+        # Count errors
+        self.assistant_health[chat_id]["errors"] += 1
+        self.assistant_health[chat_id]["last_error"] = current_time
+        
+        # Check if we need to trigger recovery
+        error_count = self.assistant_health[chat_id]["errors"]
+        recovery_attempts = self.recovery_attempts.get(chat_id, 0)
+        
+        # Trigger recovery if:
+        # 1. More than 3 errors in last 5 minutes, OR
+        # 2. More than 5 errors total, OR
+        # 3. Specific error types that indicate stuck assistant
+        should_recover = (
+            error_count >= 3 or
+            error_count >= 5 or
+            isinstance(error, (NoActiveGroupCall, TelegramServerError)) or
+            "stuck" in str(error).lower() or
+            "timeout" in str(error).lower()
+        )
+        
+        if should_recover and recovery_attempts < 3:
+            LOGGER.warning(f"Triggering auto-recovery for chat {chat_id} due to {error_count} errors")
+            await self.auto_recover_assistant(chat_id)
+            self.recovery_attempts[chat_id] += 1
 
     async def pause_stream(self, chat_id: int):
-        assistant = await group_assistant(self, chat_id)
-        await assistant.pause_stream(chat_id)
+        try:
+            assistant = await group_assistant(self, chat_id)
+            await assistant.pause_stream(chat_id)
+        except Exception as e:
+            await self.handle_assistant_error(chat_id, e)
+            raise e
 
     async def mute_stream(self, chat_id: int):
-        assistant = await group_assistant(self, chat_id)
-        await assistant.mute_stream(chat_id)
+        try:
+            assistant = await group_assistant(self, chat_id)
+            await assistant.mute_stream(chat_id)
+        except Exception as e:
+            await self.handle_assistant_error(chat_id, e)
+            raise e
 
     async def unmute_stream(self, chat_id: int):
-        assistant = await group_assistant(self, chat_id)
-        await assistant.unmute_stream(chat_id)
+        try:
+            assistant = await group_assistant(self, chat_id)
+            await assistant.unmute_stream(chat_id)
+        except Exception as e:
+            await self.handle_assistant_error(chat_id, e)
+            raise e
 
     async def get_participant(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -308,35 +400,41 @@ class Call(PyTgCalls):
         video: Union[bool, str] = None,
         image: Union[bool, str] = None,
     ):
-        assistant = await group_assistant(self, chat_id)
-        language = await get_lang(chat_id)
-        _ = get_string(language)
-        if video:
-            stream = MediaStream(
-                link,
-                audio_parameters=AudioQuality.HIGH,
-                video_parameters=VideoQuality.SD_480p,
-            )
-        else:
-            stream = MediaStream(
-                link,
-                audio_parameters=AudioQuality.HIGH,
-                video_flags=MediaStream.IGNORE,
-            )
         try:
-            await assistant.join_group_call(
-                chat_id,
-                stream,
-            )
-        except NoActiveGroupCall:
-            raise AssistantErr(_["call_8"])
-        except AlreadyJoinedError:
-            raise AssistantErr(_["call_9"])
-        except TelegramServerError:
-            raise AssistantErr(_["call_10"])
-        except Exception as e:
-            if "phone.CreateGroupCall" in str(e):
+            assistant = await group_assistant(self, chat_id)
+            language = await get_lang(chat_id)
+            _ = get_string(language)
+            if video:
+                stream = MediaStream(
+                    link,
+                    audio_parameters=AudioQuality.HIGH,
+                    video_parameters=VideoQuality.SD_480p,
+                )
+            else:
+                stream = MediaStream(
+                    link,
+                    audio_parameters=AudioQuality.HIGH,
+                    video_flags=MediaStream.IGNORE,
+                )
+            try:
+                await assistant.join_group_call(
+                    chat_id,
+                    stream,
+                )
+            except NoActiveGroupCall:
                 raise AssistantErr(_["call_8"])
+            except AlreadyJoinedError:
+                raise AssistantErr(_["call_9"])
+            except TelegramServerError:
+                raise AssistantErr(_["call_10"])
+            except Exception as e:
+                if "phone.CreateGroupCall" in str(e):
+                    raise AssistantErr(_["call_8"])
+                await self.handle_assistant_error(chat_id, e)
+                raise e
+        except Exception as e:
+            await self.handle_assistant_error(chat_id, e)
+            raise e
         await add_active_chat(chat_id)
         await music_on(chat_id)
         if video:
@@ -622,6 +720,38 @@ class Call(PyTgCalls):
             if not isinstance(update, StreamAudioEnded):
                 return
             await self.change_stream(client, update.chat_id)
+        
+        # Start periodic health check
+        asyncio.create_task(self.periodic_health_check())
+
+    async def periodic_health_check(self):
+        """Periodic health check for all active assistants"""
+        while True:
+            try:
+                await asyncio.sleep(300)  # Check every 5 minutes
+                
+                # Get all active chats
+                active_chats = list(self.assistant_health.keys())
+                
+                for chat_id in active_chats:
+                    try:
+                        # Check if assistant is healthy
+                        is_healthy = await self.check_assistant_health(chat_id)
+                        
+                        if not is_healthy:
+                            LOGGER.warning(f"Assistant health check failed for chat {chat_id}")
+                            await self.auto_recover_assistant(chat_id)
+                        
+                        # Reset error count if assistant is healthy
+                        if is_healthy and chat_id in self.assistant_health:
+                            self.assistant_health[chat_id]["errors"] = 0
+                            
+                    except Exception as e:
+                        LOGGER.error(f"Health check error for chat {chat_id}: {e}")
+                        
+            except Exception as e:
+                LOGGER.error(f"Periodic health check error: {e}")
+                await asyncio.sleep(60)  # Wait 1 minute before retrying
 
 
 Hotty = Call()
