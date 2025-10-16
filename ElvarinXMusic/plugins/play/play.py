@@ -27,6 +27,8 @@ from config import BANNED_USERS, lyrical
 import os
 import subprocess
 import asyncio
+from ElvarinXMusic.utils.database import get_lang
+from strings import get_string
 
 
 @app.on_message(
@@ -654,6 +656,8 @@ async def slider_queries(client, CallbackQuery, _):
 )
 async def vvplay_command(client, message: Message):
     """Alternative video play command for movie files that need format conversion"""
+    language = await get_lang(message.chat.id)
+    _ = get_string(language)
     if not message.reply_to_message:
         return await message.reply_text("❌ Please reply to a video/movie file with /vvplay")
     
