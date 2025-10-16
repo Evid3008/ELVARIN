@@ -30,6 +30,28 @@ MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
 # Enhanced audio filters for premium sound quality
 AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volume=1.3,highpass=f=20,lowpass=f=22000,compand=.3|.3:1|1:-90/-60|-60/-40|-40/-30|-20/-20:6:0:-90:0.2")
 
+# Female Chatbot Assistant Settings
+CHATBOT_ENABLED = bool(getenv("CHATBOT_ENABLED", "True"))  # Enable female chatbot
+CHATBOT_NAME = getenv("CHATBOT_NAME", "Elvarin")  # Assistant name
+CHATBOT_AGE = getenv("CHATBOT_AGE", "22")  # Assistant age
+CHATBOT_FATHER = getenv("CHATBOT_FATHER", "Mr. Sharma")  # Father's name
+CHATBOT_MOTHER = getenv("CHATBOT_MOTHER", "Mrs. Sharma")  # Mother's name
+CHATBOT_STATE = getenv("CHATBOT_STATE", "Maharashtra")  # State
+CHATBOT_CITY = getenv("CHATBOT_CITY", "Mumbai")  # City
+CHATBOT_COUNTRY = getenv("CHATBOT_COUNTRY", "India")  # Country
+CHATBOT_PROFESSION = getenv("CHATBOT_PROFESSION", "Music Assistant")  # Profession
+
+# Gemini AI Settings
+GEMINI_API_KEY = getenv("GEMINI_API_KEY", "")  # Gemini API key
+GEMINI_MODEL = getenv("GEMINI_MODEL", "gemini-pro")  # Gemini model
+CHATBOT_PERSONALITY = getenv("CHATBOT_PERSONALITY", "friendly, helpful, and cheerful Indian girl")  # Personality
+
+# Chatbot Performance Settings
+CHATBOT_RATE_LIMIT = int(getenv("CHATBOT_RATE_LIMIT", "5"))  # Max responses per minute per user
+CHATBOT_COOLDOWN = int(getenv("CHATBOT_COOLDOWN", "10"))  # Cooldown between responses
+CHATBOT_MAX_TOKENS = int(getenv("CHATBOT_MAX_TOKENS", "150"))  # Max response length
+CHATBOT_TIMEOUT = int(getenv("CHATBOT_TIMEOUT", "10"))  # AI response timeout in seconds
+
 # Flood Protection Settings (Critical for Bot Stability)
 FLOOD_LIMIT = int(getenv("FLOOD_LIMIT", "10"))  # Max commands per minute per user
 FLOOD_WINDOW = int(getenv("FLOOD_WINDOW", "60"))  # Time window in seconds
