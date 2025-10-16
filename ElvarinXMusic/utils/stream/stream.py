@@ -127,8 +127,10 @@ async def stream(
                     file_path, direct = await YouTube.download(
                         vidid, mystic, video=status, videoid=True
                     )
-                except:
+                except Exception as e:
+                    print(f"Download error in playlist: {e}")
                     await mystic.edit_text(_["play_3"])
+                    return
                 await Hotty.join_call(
                     chat_id,
                     original_chat_id,
@@ -192,8 +194,10 @@ async def stream(
             file_path, direct = await YouTube.download(
                 vidid, mystic, videoid=True, video=status
             )
-        except:
+        except Exception as e:
+            print(f"Download error in youtube stream: {e}")
             await mystic.edit_text(_["play_3"])
+            return
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
