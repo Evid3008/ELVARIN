@@ -30,6 +30,13 @@ MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
 # Enhanced audio filters for premium sound quality
 AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volume=1.3,highpass=f=20,lowpass=f=22000,compand=.3|.3:1|1:-90/-60|-60/-40|-40/-30|-20/-20:6:0:-90:0.2")
 
+# Shivali Learning System Settings
+SHIVALI_USERNAME = getenv("SHIVALI_USERNAME", "shivali_58")  # Target username to observe
+SHIVALI_LEARNING_ENABLED = bool(getenv("SHIVALI_LEARNING_ENABLED", "True"))  # Enable learning system
+SHIVALI_CHAT_FILE = getenv("SHIVALI_CHAT_FILE", "shivali_chats.json")  # Chat storage file
+SHIVALI_LEARNING_RATE = int(getenv("SHIVALI_LEARNING_RATE", "10"))  # Min chats to learn from
+SHIVALI_RESPONSE_SIMILARITY = float(getenv("SHIVALI_RESPONSE_SIMILARITY", "0.7"))  # Response similarity threshold
+
 # Female Chatbot Assistant Settings
 CHATBOT_ENABLED = bool(getenv("CHATBOT_ENABLED", "True"))  # Enable female chatbot
 CHATBOT_NAME = getenv("CHATBOT_NAME", "Gudiya")  # Assistant name

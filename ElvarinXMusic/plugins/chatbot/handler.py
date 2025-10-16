@@ -10,11 +10,26 @@ from pyrogram.types import Message
 import config
 from ElvarinXMusic import app, LOGGER
 from ElvarinXMusic.utils.female_chatbot import process_chatbot_message
+from ElvarinXMusic.utils.shivali_learning import (
+    record_shivali_message, 
+    get_shivali_response, 
+    get_learning_stats,
+    is_learning_ready
+)
 
 
 @app.on_message(filters.text & filters.group & ~filters.bot & ~filters.me)
 async def handle_chatbot_message(client: Client, message: Message):
     """Handle messages for female chatbot"""
+    
+    # Record Shivali's messages for learning
+    username = message.from_user.username or ""
+    record_shivali_message(
+        message.text, 
+        username, 
+        message.chat.id, 
+        message.id
+    )
     
     # Check if chatbot is enabled
     if not config.CHATBOT_ENABLED:
@@ -32,7 +47,19 @@ async def handle_chatbot_message(client: Client, message: Message):
         user_id = message.from_user.id
         user_name = message.from_user.first_name or "User"
         
-        # Process message through chatbot
+        # Try to get Shivali-style response first
+        shivali_response = get_shivali_response(message.text)
+        
+        if shivali_response and is_learning_ready():
+            # Use Shivali's style response
+            await message.reply_text(
+                f"@{message.from_user.username} {shivali_response}" if message.from_user.username 
+                else f"{user_name} {shivali_response}",
+                reply_to_message_id=message.id
+            )
+            return
+        
+        # Fallback to normal chatbot response
         response, should_tag = await process_chatbot_message(
             message.text, 
             user_id, 
@@ -112,6 +139,42 @@ async def chatbot_stats_command(client: Client, message: Message):
 • Cooldown: {config.CHATBOT_COOLDOWN}s
 • Max Tokens: {config.CHATBOT_MAX_TOKENS}
 • Timeout: {config.CHATBOT_TIMEOUT}s
+    """
+    
+    await message.reply_text(stats_text)
+
+
+@app.on_message(filters.command(["shivali_stats"]) & filters.group)
+async def shivali_stats_command(client: Client, message: Message):
+    """Show Shivali learning statistics"""
+    
+    if not config.SHIVALI_LEARNING_ENABLED:
+        return await message.reply_text("❌ Shivali learning system is disabled.")
+    
+    stats = get_learning_stats()
+    
+    stats_text = f"""
+📊 **Shivali Learning System Stats**
+
+👤 **Target User:** @{stats['target_username']}
+📚 **Learning Status:** {'✅ Ready' if stats['can_generate_responses'] else '⏳ Learning...'}
+
+📈 **Statistics:**
+• Chats Observed: {stats['total_chats_observed']}
+• Responses Learned: {stats['total_responses_learned']}
+• Patterns Learned: {stats['patterns_learned']}
+• Contexts Learned: {stats['contexts_learned']}
+
+⚙️ **Settings:**
+• Min Chats Required: {stats['min_chats_required']}
+• Learning Enabled: {'✅ Yes' if stats['learning_enabled'] else '❌ No'}
+• Can Generate Responses: {'✅ Yes' if stats['can_generate_responses'] else '❌ No'}
+
+💡 **How it works:**
+• Observes @{stats['target_username']} messages
+• Learns response patterns and style
+• Mimics responses when similar questions asked
+• Requires {stats['min_chats_required']} chats to start learning
     """
     
     await message.reply_text(stats_text)
