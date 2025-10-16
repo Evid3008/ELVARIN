@@ -22,12 +22,13 @@ PRIVATE_BOT_MODE = getenv("PRIVATE_BOT_MODE", None)
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 900))
 
 # Audio Quality Settings (Premium Quality for Telegram/Heroku)
-AUDIO_QUALITY = getenv("AUDIO_QUALITY", "320")
-AUDIO_BITRATE = getenv("AUDIO_BITRATE", "320k")
-AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")
-AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")
+AUDIO_QUALITY = getenv("AUDIO_QUALITY", "STUDIO")  # STUDIO quality for premium sound
+AUDIO_BITRATE = getenv("AUDIO_BITRATE", "320k")  # High bitrate for premium quality
+AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")  # 48kHz for premium quality
+AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")  # Stereo for premium sound
 MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
-AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=12:f=120,treble=g=6:f=12000,volume=1.2,highpass=f=15,lowpass=f=20000")
+# Enhanced audio filters for premium sound quality
+AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volume=1.3,highpass=f=20,lowpass=f=22000,compand=.3|.3:1|1:-90/-60|-60/-40|-40/-30|-20/-20:6:0:-90:0.2")
 
 # Stability Settings
 MAX_RETRIES = int(getenv("MAX_RETRIES", "3"))
