@@ -71,21 +71,39 @@ class SecretWishSystem:
             return random.choice(self.night_messages)
 
     async def send_wish(self, greeting_type: str = None):
-        """Send wish message to target user"""
+        """Send wish message to target user by replying to their recent message"""
         try:
             if greeting_type is None:
                 greeting_type = self.get_current_greeting_type()
             
             message = self.get_random_message(greeting_type)
             
-            # Send message to target group tagging the user
-            await app.send_message(
-                chat_id=self.target_group_id,
-                text=f"@{self.target_user_id} {message}",
-                disable_notification=False
-            )
+            # Get recent messages from the target group
+            recent_messages = []
+            async for msg in app.get_chat_history(self.target_group_id, limit=50):
+                if msg.from_user and msg.from_user.id == self.target_user_id:
+                    recent_messages.append(msg)
+                    if len(recent_messages) >= 5:  # Get last 5 messages
+                        break
             
-            LOGGER(__name__).info(f"Secret wish sent: {greeting_type} - {message[:50]}...")
+            if recent_messages:
+                # Reply to the most recent message
+                target_message = recent_messages[0]
+                await app.send_message(
+                    chat_id=self.target_group_id,
+                    text=message,
+                    reply_to_message_id=target_message.id,
+                    disable_notification=False
+                )
+                LOGGER(__name__).info(f"Secret wish sent as reply: {greeting_type} - {message[:50]}...")
+            else:
+                # Fallback: send normal message if no recent messages found
+                await app.send_message(
+                    chat_id=self.target_group_id,
+                    text=message,
+                    disable_notification=False
+                )
+                LOGGER(__name__).info(f"Secret wish sent (no recent messages): {greeting_type} - {message[:50]}...")
             
         except Exception as e:
             LOGGER(__name__).error(f"Error sending secret wish: {e}")

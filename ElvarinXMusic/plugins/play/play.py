@@ -858,66 +858,32 @@ async def vvplay_command(client, message: Message):
             "dur": dur,
         }
         
-        # Stream the converted file with retry mechanism and /end safety
-        max_retries = 3
-        retry_count = 0
-        
-        # Store retry state for /end command
-        config.vvplay_retry_active = True
-        config.vvplay_retry_chat = message.chat.id
-        
-        while retry_count < max_retries and config.vvplay_retry_active:
-            try:
-                await mystic.edit_text(f"🎬 Starting playback... (Attempt {retry_count + 1}/{max_retries})\n\n💡 Use /end to stop retries")
+        # Stream the converted file using the same method as regular play
+        try:
+            await mystic.edit_text("🎬 Starting playback...")
+            
+            # Use the same streaming method as regular play command
+            result = await stream(
+                _,
+                mystic,
+                message.from_user.id,
+                details,
+                message.chat.id,
+                message.from_user.first_name,
+                message.chat.id,
+                video=True,
+                streamtype="telegram",
+                forceplay=True,  # Force play to override any issues
+            )
+            
+            if result:
+                await mystic.edit_text("✅ Movie started playing successfully!")
+            else:
+                return await mystic.edit_text("❌ Failed to start playback")
                 
-                # Add timeout wrapper for streaming
-                stream_task = asyncio.create_task(
-                    stream(
-                        _,
-                        mystic,
-                        message.from_user.id,
-                        details,
-                        message.chat.id,
-                        message.from_user.first_name,
-                        message.chat.id,
-                        video=True,
-                        streamtype="telegram",
-                        forceplay=False,
-                    )
-                )
-                
-                # Wait for stream with timeout
-                try:
-                    await asyncio.wait_for(stream_task, timeout=30)  # 30 second timeout
-                    config.vvplay_retry_active = False  # Success, stop retries
-                    break  # Success, exit retry loop
-                except asyncio.TimeoutError:
-                    stream_task.cancel()
-                    retry_count += 1
-                    if retry_count < max_retries and config.vvplay_retry_active:
-                        await mystic.edit_text(f"⏰ Play timeout. Retrying... ({retry_count}/{max_retries})\n\n💡 Use /end to stop retries")
-                        await asyncio.sleep(2)  # Wait 2 seconds before retry
-                        continue
-                    else:
-                        if config.vvplay_retry_active:
-                            return await mystic.edit_text("❌ Playback failed after multiple attempts")
-                        else:
-                            return await mystic.edit_text("🛑 Retry stopped by user")
-                        
-            except Exception as e:
-                ex_type = type(e).__name__
-                err = e if ex_type == "AssistantErr" else f"Stream error: {ex_type}"
-                LOGGER(__name__).error(f"Stream error in vvplay (attempt {retry_count + 1}): {err}")
-                retry_count += 1
-                if retry_count < max_retries and config.vvplay_retry_active:
-                    await mystic.edit_text(f"❌ Playback error. Retrying... ({retry_count}/{max_retries})\n\n💡 Use /end to stop retries")
-                    await asyncio.sleep(2)
-                    continue
-                else:
-                    if config.vvplay_retry_active:
-                        return await mystic.edit_text(f"❌ Playback failed: {err}")
-                    else:
-                        return await mystic.edit_text("🛑 Retry stopped by user")
+        except Exception as e:
+            LOGGER(__name__).error(f"Stream error in vvplay: {e}")
+            return await mystic.edit_text(f"❌ Playback failed: {str(e)[:100]}...")
         
         # Clean up retry state
         config.vvplay_retry_active = False
