@@ -768,7 +768,7 @@ async def vvplay_command(client, message: Message):
                 "-crf", "32",  # Extreme compression
                 "-vf", "scale=640:360",  # Downscale to 360p
                 "-c:a", "aac",
-                "-b:a", "96k",  # Lower audio bitrate for speed
+                "-b:a", "128k",  # High audio bitrate for quality
                 "-maxrate", "600k",  # Very low max bitrate
                 "-bufsize", "1.2M",
                 "-threads", "0",  # Use all available threads
