@@ -1,6 +1,6 @@
 import functools
 from typing import Callable, Any
-from ..flood_protection import flood_protection
+from ElvarinXMusic.utils.flood_protection import flood_protection
 
 def flood_protect(command_name: str = None):
     """Flood protection decorator"""
