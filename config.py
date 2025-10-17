@@ -63,6 +63,20 @@ COOLDOWN_SEARCH = int(getenv("COOLDOWN_SEARCH", "3"))
 COOLDOWN_DOWNLOAD = int(getenv("COOLDOWN_DOWNLOAD", "10"))
 COOLDOWN_VVPLAY = int(getenv("COOLDOWN_VVPLAY", "15"))
 
+# Song Play Stability Settings
+SONG_PLAY_STABILITY = getenv("SONG_PLAY_STABILITY", "True")
+PLAY_TIMEOUT = int(getenv("PLAY_TIMEOUT", "30"))
+STREAM_RETRY_LIMIT = int(getenv("STREAM_RETRY_LIMIT", "3"))
+STREAM_RETRY_DELAY = int(getenv("STREAM_RETRY_DELAY", "5"))
+MEMORY_LIMIT_MB = int(getenv("MEMORY_LIMIT_MB", "512"))
+CRASH_RECOVERY = getenv("CRASH_RECOVERY", "True")
+AUTO_RESTART_ON_ERROR = getenv("AUTO_RESTART_ON_ERROR", "True")
+
+# Quality Preservation Settings
+PRESERVE_AUDIO_QUALITY = getenv("PRESERVE_AUDIO_QUALITY", "True")
+QUALITY_FALLBACK = getenv("QUALITY_FALLBACK", "False")
+EMERGENCY_QUALITY_MODE = getenv("EMERGENCY_QUALITY_MODE", "False")
+
 # Chat id of a group for logging bot's activities
 LOGGER_ID = int(getenv("LOGGER_ID", "-1002004045879"))
 
