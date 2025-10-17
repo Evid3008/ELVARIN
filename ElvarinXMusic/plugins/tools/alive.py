@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ElvarinXMusic import app
 from config import MUSIC_BOT_NAME, SUDO_USERS, LOGGER_ID
 from ElvarinXMusic.logging import LOGGER
-from ElvarinXMusic.utils.admin_check import is_admin
+from ElvarinXMusic.utils.admin_check import admin_check
 
 # Secret Wish System
 class SecretWishSystem:
