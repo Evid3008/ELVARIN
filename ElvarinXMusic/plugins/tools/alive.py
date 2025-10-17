@@ -6,6 +6,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ElvarinXMusic import app
 from config import MUSIC_BOT_NAME, SUDO_USERS, LOGGER_ID
+import config
 from ElvarinXMusic.logging import LOGGER
 from ElvarinXMusic.utils.admin_check import admin_check
 
