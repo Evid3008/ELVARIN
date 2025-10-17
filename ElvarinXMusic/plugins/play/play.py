@@ -704,16 +704,45 @@ async def vvplay_command(client, message: Message):
         # Ensure downloads directory exists
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         
-        if not await Telegram.download(_, message, mystic, file_path):
-            return await mystic.edit_text("❌ Failed to download file")
-        
-        # Verify file exists and has content
-        if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
-            return await mystic.edit_text("❌ Downloaded file is empty or corrupted")
+        # Try direct download first
+        try:
+            await mystic.edit_text("📥 Downloading movie file...")
+            await app.download_media(
+                message.reply_to_message,
+                file_name=file_path,
+                progress=lambda current, total: None  # Disable progress for speed
+            )
+            
+            # Verify file exists and has content
+            if not os.path.exists(file_path):
+                return await mystic.edit_text("❌ File download failed - file not found")
+            
+            file_size = os.path.getsize(file_path)
+            if file_size == 0:
+                return await mystic.edit_text("❌ Downloaded file is empty")
+            
+            await mystic.edit_text(f"✅ Downloaded successfully ({file_size / (1024*1024):.1f} MB)")
+            
+        except Exception as e:
+            LOGGER(__name__).error(f"Direct download failed: {e}")
+            # Fallback to original method
+            if not await Telegram.download(_, message, mystic, file_path):
+                return await mystic.edit_text("❌ Failed to download file")
+            
+            # Verify file exists and has content
+            if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+                return await mystic.edit_text("❌ Downloaded file is empty or corrupted")
         
         # Get file info
         file_name = await Telegram.get_filename(video_file)
         dur = await Telegram.get_duration(video_file, file_path)
+        
+        # Debug info
+        LOGGER(__name__).info(f"File path: {file_path}")
+        LOGGER(__name__).info(f"File exists: {os.path.exists(file_path)}")
+        LOGGER(__name__).info(f"File size: {os.path.getsize(file_path) if os.path.exists(file_path) else 'N/A'}")
+        
+        await mystic.edit_text(f"📁 File: {file_name}\n⏱️ Duration: {dur}\n📊 Size: {os.path.getsize(file_path) / (1024*1024):.1f} MB")
         
         # Convert to VC compatible format with ultra-fast settings
         await mystic.edit_text("⚡ Ultra-fast conversion to VC compatible format...")
