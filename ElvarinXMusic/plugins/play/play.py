@@ -719,7 +719,7 @@ async def vvplay_command(client, message: Message):
             "-crf", "28",        # Fixed high compression for speed
             "-vf", scale,       # Dynamic scaling
             "-c:a", "aac",      # AAC audio
-            "-b:a", "128k",     # Lower audio bitrate for speed
+            "-b:a", "256k",     # High audio bitrate for quality
             "-movflags", "+faststart",  # Optimize for streaming
             "-maxrate", "1M",   # Lower max bitrate for speed
             "-bufsize", "2M",   # Smaller buffer for speed
