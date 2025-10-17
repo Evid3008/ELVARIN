@@ -22,62 +22,12 @@ PRIVATE_BOT_MODE = getenv("PRIVATE_BOT_MODE", None)
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 900))
 
 # Audio Quality Settings (Premium Quality for Telegram/Heroku)
-AUDIO_QUALITY = getenv("AUDIO_QUALITY", "STUDIO")  # STUDIO quality for premium sound
-AUDIO_BITRATE = getenv("AUDIO_BITRATE", "320k")  # High bitrate for premium quality
-AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")  # 48kHz for premium quality
-AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")  # Stereo for premium sound
+AUDIO_QUALITY = getenv("AUDIO_QUALITY", "320")
+AUDIO_BITRATE = getenv("AUDIO_BITRATE", "320k")
+AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")
+AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")
 MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
-# Enhanced audio filters for premium sound quality
-AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volume=1.3,highpass=f=20,lowpass=f=22000,compand=.3|.3:1|1:-90/-60|-60/-40|-40/-30|-20/-20:6:0:-90:0.2")
-
-# Chat Learning System Settings
-TARGET_USERNAME = getenv("TARGET_USERNAME", "shivali_58")  # Target username to observe
-LEARNING_ENABLED = bool(getenv("LEARNING_ENABLED", "True"))  # Enable learning system
-LEARNING_CHAT_FILE = getenv("LEARNING_CHAT_FILE", "user_chats.json")  # Chat storage file
-LEARNING_RATE = int(getenv("LEARNING_RATE", "10"))  # Min chats to learn from
-RESPONSE_SIMILARITY = float(getenv("RESPONSE_SIMILARITY", "0.7"))  # Response similarity threshold
-
-# Female Chatbot Assistant Settings
-CHATBOT_ENABLED = bool(getenv("CHATBOT_ENABLED", "True"))  # Enable female chatbot
-CHATBOT_NAME = getenv("CHATBOT_NAME", "Gudiya")  # Assistant name
-CHATBOT_AGE = getenv("CHATBOT_AGE", "17")  # Assistant age (11th class)
-CHATBOT_FATHER = getenv("CHATBOT_FATHER", "Papa")  # Father's name
-CHATBOT_MOTHER = getenv("CHATBOT_MOTHER", "Mummy")  # Mother's name
-CHATBOT_STATE = getenv("CHATBOT_STATE", "Madhya Pradesh")  # State
-CHATBOT_CITY = getenv("CHATBOT_CITY", "Bhopal")  # City
-CHATBOT_COUNTRY = getenv("CHATBOT_COUNTRY", "India")  # Country
-CHATBOT_PROFESSION = getenv("CHATBOT_PROFESSION", "Student (11th Class)")  # Profession
-CHATBOT_INSPIRATION = getenv("CHATBOT_INSPIRATION", "Shivali")  # Inspiration
-
-# Gemini AI Settings
-GEMINI_API_KEY = getenv("GEMINI_API_KEY", "AIzaSyA6kIR_P6IvrbQwADvsWo77vifSPQLCx5M")  # Gemini API key
-GEMINI_MODEL = getenv("GEMINI_MODEL", "gemini-pro")  # Gemini model
-CHATBOT_PERSONALITY = getenv("CHATBOT_PERSONALITY", "cute, playful, and sassy Indian girl from Bhopal")  # Personality
-
-# Chatbot Performance Settings
-CHATBOT_RATE_LIMIT = int(getenv("CHATBOT_RATE_LIMIT", "5"))  # Max responses per minute per user
-CHATBOT_COOLDOWN = int(getenv("CHATBOT_COOLDOWN", "10"))  # Cooldown between responses
-CHATBOT_MAX_TOKENS = int(getenv("CHATBOT_MAX_TOKENS", "150"))  # Max response length
-CHATBOT_TIMEOUT = int(getenv("CHATBOT_TIMEOUT", "10"))  # AI response timeout in seconds
-
-# Flood Protection Settings (Critical for Bot Stability)
-FLOOD_LIMIT = int(getenv("FLOOD_LIMIT", "10"))  # Max commands per minute per user
-FLOOD_WINDOW = int(getenv("FLOOD_WINDOW", "60"))  # Time window in seconds
-FLOOD_COOLDOWN = int(getenv("FLOOD_COOLDOWN", "30"))  # Cooldown period in seconds
-FLOOD_AUTO_BAN = bool(getenv("FLOOD_AUTO_BAN", "True"))  # Auto-ban flooders
-FLOOD_BAN_DURATION = int(getenv("FLOOD_BAN_DURATION", "3600"))  # Ban duration in seconds (1 hour)
-
-# Rate Limiting Settings
-RATE_LIMIT_PLAY = int(getenv("RATE_LIMIT_PLAY", "3"))  # Max play commands per minute
-RATE_LIMIT_SEARCH = int(getenv("RATE_LIMIT_SEARCH", "5"))  # Max search commands per minute
-RATE_LIMIT_DOWNLOAD = int(getenv("RATE_LIMIT_DOWNLOAD", "2"))  # Max download commands per minute
-RATE_LIMIT_ADMIN = int(getenv("RATE_LIMIT_ADMIN", "10"))  # Max admin commands per minute
-
-# Command Cooldowns (in seconds)
-COOLDOWN_PLAY = int(getenv("COOLDOWN_PLAY", "5"))  # Play command cooldown
-COOLDOWN_SEARCH = int(getenv("COOLDOWN_SEARCH", "3"))  # Search command cooldown
-COOLDOWN_DOWNLOAD = int(getenv("COOLDOWN_DOWNLOAD", "10"))  # Download command cooldown
-COOLDOWN_VVPLAY = int(getenv("COOLDOWN_VVPLAY", "15"))  # VVPlay command cooldown (longer due to processing)
+AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=12:f=120,treble=g=6:f=12000,volume=1.2,highpass=f=15,lowpass=f=20000")
 
 # Stability Settings
 MAX_RETRIES = int(getenv("MAX_RETRIES", "3"))
