@@ -700,8 +700,16 @@ async def vvplay_command(client, message: Message):
         
         # Download the file with high priority
         file_path = await Telegram.get_filepath(video=video_file)
+        
+        # Ensure downloads directory exists
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        
         if not await Telegram.download(_, message, mystic, file_path):
             return await mystic.edit_text("❌ Failed to download file")
+        
+        # Verify file exists and has content
+        if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+            return await mystic.edit_text("❌ Downloaded file is empty or corrupted")
         
         # Get file info
         file_name = await Telegram.get_filename(video_file)
@@ -753,11 +761,13 @@ async def vvplay_command(client, message: Message):
             return await mystic.edit_text("❌ Conversion timeout - file too large or complex")
         
         if process.returncode != 0:
-            return await mystic.edit_text(f"❌ Conversion failed: {stderr.decode()}")
+            error_msg = stderr.decode() if stderr else "Unknown error"
+            LOGGER(__name__).error(f"FFmpeg conversion failed: {error_msg}")
+            return await mystic.edit_text(f"❌ Conversion failed: {error_msg[:500]}...")
         
-        # Check if output file exists
-        if not os.path.exists(output_path):
-            return await mystic.edit_text("❌ Conversion failed - output file not found")
+        # Check if output file exists and has content
+        if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
+            return await mystic.edit_text("❌ Conversion completed but output file is empty")
         
         # Check final file size
         final_size_bytes = os.path.getsize(output_path)
