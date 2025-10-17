@@ -51,10 +51,10 @@ async def init():
         pass
     await Hotty.decorators()
     
-    # Start background cleanup tasks
-    asyncio.create_task(stability_monitor())
-    asyncio.create_task(background_cleanup())
-    LOGGER("ElvarinXMusic").info("Background cleanup tasks started")
+        # Start background cleanup tasks
+        asyncio.create_task(stability_monitor())
+        asyncio.create_task(background_cleanup())
+        LOGGER("ElvarinXMusic").info("Background cleanup tasks started")
     
     LOGGER("ElvarinXMusic").info(
         "ᴅʀᴏᴘ ʏᴏᴜʀ ɢɪʀʟꜰʀɪᴇɴᴅ'ꜱ ɴᴜᴍʙᴇʀ ᴀᴛ @evidclue ᴊᴏɪɴ @TEAM_FERA , @evidzone ꜰᴏʀ ᴀɴʏ ɪꜱꜱᴜᴇꜱ"
