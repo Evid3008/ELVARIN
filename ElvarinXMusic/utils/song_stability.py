@@ -13,14 +13,25 @@ class SongPlayStability:
         self.memory_warnings = 0
         
     async def check_memory_usage(self) -> bool:
-        """Check if memory usage is within limits"""
+        """Check if memory usage is within limits with proactive cleanup"""
         try:
             process = psutil.Process()
             memory_mb = process.memory_info().rss / 1024 / 1024
             
-            if memory_mb > config.MEMORY_LIMIT_MB:
+            # Proactive cleanup at 70% of limit
+            cleanup_threshold = config.MEMORY_LIMIT_MB * 0.7
+            
+            if memory_mb > cleanup_threshold:
+                await self.proactive_cleanup()
+                # Check again after cleanup
+                memory_mb = process.memory_info().rss / 1024 / 1024
+            
+            # Warning only at 90% of limit
+            warning_threshold = config.MEMORY_LIMIT_MB * 0.9
+            
+            if memory_mb > warning_threshold:
                 self.memory_warnings += 1
-                if self.memory_warnings >= 3:
+                if self.memory_warnings >= 2:  # Reduced from 3 to 2
                     await self.emergency_cleanup()
                     return False
             else:
@@ -29,6 +40,22 @@ class SongPlayStability:
             return True
         except:
             return True
+    
+    async def proactive_cleanup(self):
+        """Proactive memory cleanup before warnings"""
+        try:
+            # Clean up old stream tracking
+            await self.cleanup_old_streams()
+            
+            # Force garbage collection
+            gc.collect()
+            
+            # Clear any cached data
+            if hasattr(self, 'cached_data'):
+                self.cached_data.clear()
+                
+        except:
+            pass
     
     async def emergency_cleanup(self):
         """Emergency memory cleanup"""
@@ -97,8 +124,22 @@ song_stability = SongPlayStability()
 async def stability_monitor():
     while True:
         try:
+            # Continuous monitoring every 30 seconds
             await song_stability.cleanup_old_streams()
             await song_stability.check_memory_usage()
-            await asyncio.sleep(60)  # Check every minute
+            
+            # Proactive cleanup every 2 minutes
+            await asyncio.sleep(30)
+            
         except:
-            await asyncio.sleep(60)
+            await asyncio.sleep(30)
+
+# Background cleanup task
+async def background_cleanup():
+    while True:
+        try:
+            # Force cleanup every 5 minutes
+            await song_stability.proactive_cleanup()
+            await asyncio.sleep(300)  # 5 minutes
+        except:
+            await asyncio.sleep(300)
