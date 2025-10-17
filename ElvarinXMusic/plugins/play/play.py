@@ -27,7 +27,6 @@ from config import BANNED_USERS, lyrical
 import os
 import subprocess
 import asyncio
-from ElvarinXMusic.utils.decorators.flood import vvplay_flood_protect, play_flood_protect
 from ElvarinXMusic.utils.database import get_lang
 from strings import get_string
 
@@ -49,7 +48,6 @@ from strings import get_string
     & ~BANNED_USERS
 )
 @PlayWrapper
-@play_flood_protect()
 async def play_commnd(
     client,
     message: Message,
@@ -656,7 +654,6 @@ async def slider_queries(client, CallbackQuery, _):
 @app.on_message(
     filters.command(["vvplay"]) & filters.group & ~BANNED_USERS
 )
-@vvplay_flood_protect()
 async def vvplay_command(client, message: Message):
     """High-speed alternative video play command for movie files that need format conversion"""
     language = await get_lang(message.chat.id)
