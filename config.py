@@ -27,8 +27,8 @@ AUDIO_BITRATE = getenv("AUDIO_BITRATE", "320k")
 AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")
 AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")
 MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
-# YouTube Premium Level Audio Filters
-AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=20:f=80,treble=g=12:f=15000,volume=1.4,highpass=f=30,lowpass=f=22000,compand=0.2|0.8:8:-70/-50|-50/-30|-30/-20|-20/-10:8:0:-70:0.1,acompressor=threshold=0.1:ratio=3:attack=5:release=50")
+# Enhanced YouTube Premium Level Audio Filters (No Chubta Gana)
+AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=25:f=60,treble=g=15:f=18000,volume=1.5,highpass=f=20,lowpass=f=24000,compand=0.1|0.9:6:-60/-40|-40/-20|-20/-10:6:0:-60:0.05,acompressor=threshold=0.05:ratio=2:attack=3:release=30,equalizer=f=1000:width_type=h:width=200:g=3")
 
 # Stability & Load Balancing Settings
 MAX_RETRIES = int(getenv("MAX_RETRIES", "5"))

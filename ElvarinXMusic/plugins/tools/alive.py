@@ -5,7 +5,7 @@ from typing import List, Dict
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ElvarinXMusic import app
-from config import MUSIC_BOT_NAME, SUDO_USERS
+from config import MUSIC_BOT_NAME, SUDO_USERS, LOGGER_ID
 from ElvarinXMusic.logging import LOGGER
 from ElvarinXMusic.utils.admin_check import is_admin
 
@@ -124,10 +124,14 @@ async def start(client: Client, message: Message):
 @app.on_message(filters.command("wish") & filters.user(SUDO_USERS))
 async def wish_command(client, message: Message):
     """
-    Manual wish command for sudo users
-    Sends wish based on current time
+    Manual wish command for sudo users (only works in logger group)
     """
     try:
+        # Check if it's the logger group
+        if message.chat.id != config.LOGGER_ID:
+            await message.reply_text("❌ **This command only works in logger group!**")
+            return
+        
         # Get current greeting type
         greeting_type = secret_wish_system.get_current_greeting_type()
         
@@ -151,34 +155,6 @@ async def wish_command(client, message: Message):
 @app.on_message(filters.command("wish") & filters.group)
 async def wish_command_group(client, message: Message):
     """
-    Wish command for group users (only works in target group)
+    Wish command disabled for group users
     """
-    try:
-        # Check if it's the target group
-        if message.chat.id != secret_wish_system.target_group_id:
-            return
-        
-        # Check if user is admin or sudo
-        if not (await is_admin(message.chat.id, message.from_user.id) or 
-                message.from_user.id in SUDO_USERS):
-            await message.reply_text("❌ **Only admins can use this command!**")
-            return
-        
-        # Get current greeting type
-        greeting_type = secret_wish_system.get_current_greeting_type()
-        
-        # Send wish
-        await secret_wish_system.send_wish(greeting_type)
-        
-        # Confirm to user
-        await message.reply_text(
-            f"✅ **Wish sent!**\n"
-            f"**Type:** {greeting_type.title()}\n"
-            f"**Target:** User ID {secret_wish_system.target_user_id}"
-        )
-        
-        LOGGER(__name__).info(f"Group wish sent by {message.from_user.id}")
-        
-    except Exception as e:
-        await message.reply_text(f"❌ **Error sending wish:** {e}")
-        LOGGER(__name__).error(f"Error in group wish command: {e}")
+    await message.reply_text("❌ **This command is disabled for group users!**")
