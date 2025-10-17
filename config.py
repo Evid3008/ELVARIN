@@ -21,21 +21,47 @@ PRIVATE_BOT_MODE = getenv("PRIVATE_BOT_MODE", None)
 
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 900))
 
-# Audio Quality Settings (Premium Quality for Telegram/Heroku)
+# Audio Quality Settings (YouTube Premium Level)
 AUDIO_QUALITY = getenv("AUDIO_QUALITY", "STUDIO")
 AUDIO_BITRATE = getenv("AUDIO_BITRATE", "320k")
 AUDIO_SAMPLE_RATE = getenv("AUDIO_SAMPLE_RATE", "48000")
 AUDIO_CHANNELS = getenv("AUDIO_CHANNELS", "2")
 MAX_FILE_SIZE = getenv("MAX_FILE_SIZE", "50MB")
-AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=15:f=120,treble=g=8:f=12000,volume=1.3,highpass=f=20,lowpass=f=20000,compand=0.3|0.8:6:-90/-60|-60/-40|-40/-30|-20/-20:6:0:-90:0.2")
+# YouTube Premium Level Audio Filters
+AUDIO_FILTERS = getenv("AUDIO_FILTERS", "bass=g=20:f=80,treble=g=12:f=15000,volume=1.4,highpass=f=30,lowpass=f=22000,compand=0.2|0.8:8:-70/-50|-50/-30|-30/-20|-20/-10:8:0:-70:0.1,acompressor=threshold=0.1:ratio=3:attack=5:release=50")
 
-# Stability Settings
-MAX_RETRIES = int(getenv("MAX_RETRIES", "3"))
-RETRY_DELAY = int(getenv("RETRY_DELAY", "5"))
-CACHE_DURATION = int(getenv("CACHE_DURATION", "100"))
+# Stability & Load Balancing Settings
+MAX_RETRIES = int(getenv("MAX_RETRIES", "5"))
+RETRY_DELAY = int(getenv("RETRY_DELAY", "3"))
+CACHE_DURATION = int(getenv("CACHE_DURATION", "300"))
 OVERLOAD_QUIET_MODE = getenv("OVERLOAD_QUIET_MODE", "True")
-HEALTH_CHECK_INTERVAL = int(getenv("HEALTH_CHECK_INTERVAL", "30"))
-MEMORY_CLEANUP_INTERVAL = int(getenv("MEMORY_CLEANUP_INTERVAL", "300"))
+HEALTH_CHECK_INTERVAL = int(getenv("HEALTH_CHECK_INTERVAL", "15"))
+MEMORY_CLEANUP_INTERVAL = int(getenv("MEMORY_CLEANUP_INTERVAL", "180"))
+
+# Multi-Group Load Balancing
+MAX_CONCURRENT_GROUPS = int(getenv("MAX_CONCURRENT_GROUPS", "50"))
+GROUP_LOAD_LIMIT = int(getenv("GROUP_LOAD_LIMIT", "10"))
+AUTO_SCALE_ENABLED = getenv("AUTO_SCALE_ENABLED", "True")
+PERFORMANCE_MONITORING = getenv("PERFORMANCE_MONITORING", "True")
+
+# Flood Protection Settings
+FLOOD_LIMIT = int(getenv("FLOOD_LIMIT", "5"))
+FLOOD_WINDOW = int(getenv("FLOOD_WINDOW", "60"))
+FLOOD_COOLDOWN = int(getenv("FLOOD_COOLDOWN", "30"))
+FLOOD_AUTO_BAN = getenv("FLOOD_AUTO_BAN", "True")
+FLOOD_BAN_DURATION = int(getenv("FLOOD_BAN_DURATION", "300"))
+
+# Rate Limiting
+RATE_LIMIT_PLAY = int(getenv("RATE_LIMIT_PLAY", "3"))
+RATE_LIMIT_SEARCH = int(getenv("RATE_LIMIT_SEARCH", "5"))
+RATE_LIMIT_DOWNLOAD = int(getenv("RATE_LIMIT_DOWNLOAD", "2"))
+RATE_LIMIT_ADMIN = int(getenv("RATE_LIMIT_ADMIN", "10"))
+
+# Cooldowns (seconds)
+COOLDOWN_PLAY = int(getenv("COOLDOWN_PLAY", "5"))
+COOLDOWN_SEARCH = int(getenv("COOLDOWN_SEARCH", "3"))
+COOLDOWN_DOWNLOAD = int(getenv("COOLDOWN_DOWNLOAD", "10"))
+COOLDOWN_VVPLAY = int(getenv("COOLDOWN_VVPLAY", "15"))
 
 # Chat id of a group for logging bot's activities
 LOGGER_ID = int(getenv("LOGGER_ID", "-1002004045879"))
