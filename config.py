@@ -74,6 +74,10 @@ AUTO_RESTART_ON_ERROR = getenv("AUTO_RESTART_ON_ERROR", "True")
 PROACTIVE_CLEANUP = getenv("PROACTIVE_CLEANUP", "True")
 CLEANUP_INTERVAL = int(getenv("CLEANUP_INTERVAL", "30"))  # 30 seconds
 
+# VVPlay Retry Control
+vvplay_retry_active = False
+vvplay_retry_chat = None
+
 # Quality Preservation Settings
 PRESERVE_AUDIO_QUALITY = getenv("PRESERVE_AUDIO_QUALITY", "True")
 QUALITY_FALLBACK = getenv("QUALITY_FALLBACK", "False")
