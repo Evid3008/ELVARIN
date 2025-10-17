@@ -858,24 +858,55 @@ async def vvplay_command(client, message: Message):
             "dur": dur,
         }
         
-        # Stream the converted file
-        try:
-            await stream(
-                _,
-                mystic,
-                message.from_user.id,
-                details,
-                message.chat.id,
-                message.from_user.first_name,
-                message.chat.id,
-                video=True,
-                streamtype="telegram",
-                forceplay=False,
-            )
-        except Exception as e:
-            ex_type = type(e).__name__
-            err = e if ex_type == "AssistantErr" else f"Stream error: {ex_type}"
-            return await mystic.edit_text(err)
+        # Stream the converted file with retry mechanism
+        max_retries = 3
+        retry_count = 0
+        
+        while retry_count < max_retries:
+            try:
+                await mystic.edit_text(f"🎬 Starting playback... (Attempt {retry_count + 1}/{max_retries})")
+                
+                # Add timeout wrapper for streaming
+                stream_task = asyncio.create_task(
+                    stream(
+                        _,
+                        mystic,
+                        message.from_user.id,
+                        details,
+                        message.chat.id,
+                        message.from_user.first_name,
+                        message.chat.id,
+                        video=True,
+                        streamtype="telegram",
+                        forceplay=False,
+                    )
+                )
+                
+                # Wait for stream with timeout
+                try:
+                    await asyncio.wait_for(stream_task, timeout=30)  # 30 second timeout
+                    break  # Success, exit retry loop
+                except asyncio.TimeoutError:
+                    stream_task.cancel()
+                    retry_count += 1
+                    if retry_count < max_retries:
+                        await mystic.edit_text(f"⏰ Play timeout. Retrying... ({retry_count}/{max_retries})")
+                        await asyncio.sleep(2)  # Wait 2 seconds before retry
+                        continue
+                    else:
+                        return await mystic.edit_text("❌ Playback failed after multiple attempts")
+                        
+            except Exception as e:
+                ex_type = type(e).__name__
+                err = e if ex_type == "AssistantErr" else f"Stream error: {ex_type}"
+                LOGGER(__name__).error(f"Stream error in vvplay (attempt {retry_count + 1}): {err}")
+                retry_count += 1
+                if retry_count < max_retries:
+                    await mystic.edit_text(f"❌ Playback error. Retrying... ({retry_count}/{max_retries})")
+                    await asyncio.sleep(2)
+                    continue
+                else:
+                    return await mystic.edit_text(f"❌ Playback failed: {err}")
         
         # Clean up original file
         try:
